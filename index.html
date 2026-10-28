@@ -1,0 +1,138 @@
+<!-- ============================================================================ Nome do arquivo: UTFPR.html Objetivo: Apresentar a página institucional UTFPR com imagem em tela cheia e estrutura padrão. Desenvolvido por: Gisele Nunes, Rodrigo Barbosa Data: Segundo semestre de 2026 ============================================================================ -->
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Programação Web e Cultura Digital | Material Didático para o Ensino Médio
+      - UTFPR
+    </title>
+    <!-- CSS externo -->
+    <link rel="stylesheet" href="assets/css/utfpr.css" />
+    <!-- Opcional: Bootstrap para responsividade extra (CDN) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <!-- ========== CABEÇALHO (copiado de cabecalho.html) ========== -->
+    <header>
+      <!-- Div para o topo do cabeçalho (logotipo e título institucional) -->
+      <div class="header-top">
+        <!-- Container centraliza e limita a largura do conteúdo -->
+        <div class="container">
+          <!-- Container do logotipo e nome da instituição -->
+          <div class="logo-container">
+            <!-- Imagem do logotipo da UTFPR -->
+            <img
+              src="assets/images/UTFPR_logo.png"
+              alt="UTFPR Logo"
+              class="logo"
+            />
+            <!-- Nome da universidade com um pequeno texto para o campus -->
+            <div class="institution-name">
+              Universidade Tecnológica Federal do Paraná<br />
+              <small>Campus Siqueira Campos</small>
+            </div>
+          </div>
+          <!-- Título principal do portal, com subtítulo -->
+          <div class="header-title">
+            <center>
+              Projeto sogra 180º: <br />Quando a sogra ganha um Arduino,
+              <br />até o capeta pede privacidade!
+            </center>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========== MENU PRINCIPAL (copiado de menu_principal.html) ========== -->
+    <div class="header-bottom">
+      <div class="container">
+        <nav>
+          <ul>
+            <li>
+              <a href="index.html" aria-current="page" class="active"
+                >Página Inicial</a
+              >
+            </li>
+            <li><a href="pages/olho_de_sogra_1.html"> 1º fase</a></li>
+            <li><a href="pages/olho_de_sogra_2.html"> 2º fase</a></li>
+            <li><a href="pages/UTFPR.html">UTFPR</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!-- ========== CONTEÚDO PRINCIPAL (IMAGEM EM TELA CHEIA) ========== -->
+    <main class="hero-section">
+      <div class="hero-image">
+        <!-- A imagem deve preencher toda a área do main -->
+        <img
+          src="assets/images/em_construção.png"
+          alt="Revolução Digital - Criação, Inovação, Impacto"
+          class="img-fluid w-100 h-100"
+          style="object-fit: cover"
+        />
+      </div>
+    </main>
+
+    <!-- ======================== RODAPÉ ======================== -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>UTFPR - Campus Siqueira Campos</h3>
+            <p>Universidade Tecnológica Federal do Paraná</p>
+            <p>Departamento de Computação</p>
+          </div>
+          <div class="footer-section">
+            <h3>Conheça os alunos</h3>
+            <p>
+              Gisele Nunes:
+              <a
+                href="https://projetosgn.com.br/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >https://projetosgn.com.br/</a
+              >
+            </p>
+            <p>
+              Rodrigo Barbosa:
+              <a
+                href="https://projetosrb.com.br/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >https://projetosrb.com.br/</a
+              >
+            </p>
+          </div>
+          <div class="footer-section">
+            <h3>Contato</h3>
+            <p>Email: giseleacn@gmail.com</p>
+            <p>Email: barbosa.rodrigo.1979@gmail.com</p>
+          </div>
+        </div>
+        <div class="copyright">
+          &copy; 2026 UTFPR - Desenvolvido por Gisele Nunes e Rodrigo Barbosa.
+          Todos os direitos reservados.
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript externo -->
+    <script src="./assets/js/utfpr.js"></script>
+    <!-- Opcional: Bootstrap JS (para componentes interativos, se necessário) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,1506 @@
+/* ============================================================================
+Nome do arquivo: olho_de_sogra_1.css
+Objetivo: Estilizar o documento didático do radar com cabeçalho, menu, conteúdo, rodapé e responsividade.
+Desenvolvido por: Gisele Nunes, Rodrigo Barbosa
+Data: Segundo semestre de 2026
+
+   olho_de_sogra_1.css
+   Folha de estilos do documento "Radar Ultrassônico com Arduino + Processing"
+   -------------------------------------------------------------------
+   Este arquivo reúne, SEM ALTERAÇÃO, o CSS dos anexos:
+     • cabecalho.css  →  Seção 1 (cabeçalho)
+     • menu.css       →  Seção 2 (menu)
+     • rodape.css     →  Seção 3 (rodapé e main)
+     • style.css      →  Seção 4 (conteúdo: page-header, content-section,
+                          pre/code, tabelas, dica-box, formula-box, etc.)
+   As classes de suporte específicas desta página (media-placeholder,
+   download-grid, download-link, part-navigation) estão ao final,
+   na Seção 5 — nada mais foi alterado.
+   =================================================================== */
+
+/* ===================================================================
+   SEÇÃO 1 — CABEÇALHO (cópia fiel de cabecalho.css)
+   =================================================================== */
+
+/*
+===================================================================
+    CSS UTILIZADO NO CABEÇALHO — modelo_cabecalho.html
+    Extraído e organizado da folha de estilos global.
+===================================================================
+*/
+
+/* ===================================================================
+   SEÇÃO 1 — VARIÁVEIS CSS
+   =================================================================== */
+:root {
+  /* Paleta UTFPR */
+  --utfpr-Yellow: #ffd200;
+  --utfpr-Yellow-light: #ffe84d;
+  --utfpr-Yellow-dark: #e9b400;
+  --utfpr-Yellow-darker: #c99700;
+
+  /* Escala de cinza */
+  --utfpr-white: #ffffff;
+  --utfpr-gray-light: #f8f9fa;
+  --utfpr-gray: #e9ecef;
+  --utfpr-gray-medium: #dee2e6;
+  --utfpr-gray-dark: #6c757d;
+  --utfpr-black: #212529;
+
+  /* Outras cores (não usadas diretamente no cabeçalho, mas mantidas para consistência) */
+  --scratch-motion: #4a6cd4;
+  --scratch-looks: #8a55d7;
+  --scratch-sound: #bb42c3;
+  --scratch-events: #ffbf00;
+  --scratch-control: #ff8c1a;
+  --scratch-sensing: #2ca5a2;
+  --scratch-operators: #5cb712;
+  --card-bg: #ffffff;
+  --border-color: #dee2e6;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --success-color: #28a745;
+}
+
+/* ===================================================================
+   SEÇÃO 2 — RESET E CONFIGURAÇÕES BASE
+   =================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--utfpr-black);
+  background: linear-gradient(135deg, var(--utfpr-gray-dark) 0%, #343a40 100%);
+}
+
+/* ===================================================================
+   SEÇÃO 3 — CONTAINER
+   =================================================================== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ===================================================================
+   SEÇÃO 4 — CABEÇALHO SUPERIOR (header-top)
+   =================================================================== */
+.header-top {
+  background: linear-gradient(
+    135deg,
+    var(--utfpr-gray-dark) 0%,
+    var(--utfpr-gray-medium) 100%
+  );
+  color: var(--utfpr-black);
+  padding: 20px 0;
+  box-shadow: 0 2px 15px rgba(35, 31, 32, 0.4);
+  border-bottom: 4px solid var(--utfpr-Yellow-dark);
+}
+
+.header-top .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  height: 65px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+.institution-name {
+  font-size: 0.95rem;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--utfpr-black);
+}
+
+.institution-name small {
+  font-size: 0.85rem;
+  opacity: 0.95;
+  font-weight: normal;
+  color: var(--utfpr-black);
+}
+
+.header-title {
+  text-align: right;
+  font-size: 1.15rem;
+  font-weight: bold;
+  color: var(--utfpr-black);
+}
+
+.header-title small {
+  font-size: 0.9rem;
+  font-weight: normal;
+  opacity: 0.95;
+  color: var(--utfpr-black);
+}
+
+/* ===================================================================
+   SEÇÃO 5 — RESPONSIVIDADE (TABLETS E CELULARES)
+   =================================================================== */
+@media (max-width: 768px) {
+  .header-top .container {
+    flex-direction: column;
+    text-align: center;
+    gap: 18px;
+  }
+  .header-title {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 15px;
+  }
+  .logo {
+    height: 55px;
+  }
+}
+
+/* ===================================================================
+   SEÇÃO 5.1 — VÍDEOS RESPONSIVOS (media-placeholder--video)
+   (Regras novas para que o <video> preencha totalmente o contêiner
+   reservado, mantendo a proporção original sem crop.)
+   =================================================================== */
+
+/* Contêiner do vídeo: anula as características “tracejadas” do
+   .media-placeholder genérico e vira uma moldura limpa. */
+.media-placeholder.media-placeholder--video {
+  display: block;
+  padding: 0;
+  min-height: 0;
+  width: 100%;
+  max-width: 100%;
+  background: #000;
+  border: 1px solid var(--utfpr-gray-medium);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* O <video> ocupa 100% da largura do contêiner, respeita a
+   proporção natural da fonte e nunca ultrapassa 70% da altura
+   da viewport (evita “esticar” em telas baixas). */
+.media-placeholder.media-placeholder--video > .video-responsive,
+.media-placeholder--video .video-responsive {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+  background: #000;
+  border: 0;
+  border-radius: 0;
+}
+
+/* Quando o vídeo está dentro do .image-container, deixa o
+   contêiner-flex esticar o vídeo em vez de centralizá-lo. */
+.image-container > .media-placeholder--video {
+  flex: 1 1 auto;
+  align-self: stretch;
+}
+
+/* Fallback para navegadores muito antigos (sem aspect-ratio):
+   mantém o bloco com proporção 16/9 via padding-top. */
+@supports not (aspect-ratio: 1 / 1) {
+  .media-placeholder.media-placeholder--video {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 */
+  }
+  .media-placeholder.media-placeholder--video > .video-responsive {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+  }
+}
+
+/* Responsividade — ajusta o teto de altura em telas menores. */
+@media (max-width: 768px) {
+  .media-placeholder.media-placeholder--video > .video-responsive {
+    max-height: 55vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .media-placeholder.media-placeholder--video > .video-responsive {
+    max-height: 45vh;
+  }
+}
+
+/* Modo escuro — o vídeo já tem fundo preto; só alinhamos a moldura. */
+body.dark-mode .media-placeholder.media-placeholder--video {
+  background: #000;
+  border-color: var(--utfpr-gray-dark);
+}
+
+/* Impressão — vídeos não imprimem bem; mostra a moldura com
+   um rótulo discreto em vez de tentar renderizar o frame. */
+@media print {
+  .media-placeholder.media-placeholder--video {
+    background: #fff !important;
+    border: 1px dashed #666 !important;
+    border-radius: 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .media-placeholder.media-placeholder--video > .video-responsive {
+    display: none !important;
+  }
+  .media-placeholder.media-placeholder--video::after {
+    content: '🎬 Vídeo disponível apenas na versão digital';
+    display: block;
+    padding: 12px;
+    font-size: 0.9rem;
+    color: #333;
+    text-align: center;
+  }
+}
+
+/* ===================================================================
+   SEÇÃO 6 — MODO ESCURO (se a classe .dark-mode for adicionada ao body)
+   =================================================================== */
+body.dark-mode {
+  --utfpr-black: #f8f9fa;
+  --utfpr-white: #212529;
+  --utfpr-gray-light: #343a40;
+  --utfpr-gray: #495057;
+  --utfpr-gray-medium: #6c757d;
+  --utfpr-gray-dark: #adb5bd;
+  --card-bg: #2d3748;
+  --border-color: #4a5568;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .header-top {
+  background: linear-gradient(
+    135deg,
+    var(--utfpr-gray) 0%,
+    var(--utfpr-gray-medium) 100%
+  );
+  color: var(--utfpr-black);
+}
+
+/* ===================================================================
+   SEÇÃO 7 — ACESSIBILIDADE (scroll suave e foco)
+   =================================================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+a:focus,
+button:focus {
+  outline: 3px solid var(--utfpr-Yellow);
+  outline-offset: 2px;
+}
+
+/* ===================================================================
+   SEÇÃO 2 — MENU (cópia fiel de menu.css)
+   =================================================================== */
+
+/*
+====================================================================
+  CSS EXTRATO — APENAS REGRAS UTILIZADAS NO modelo_menu.html
+====================================================================
+  Este arquivo contém unicamente as declarações CSS que estilizam
+  os elementos presentes no fragmento HTML do menu de navegação.
+  Foram mantidas as variáveis, o reset global, o container, a barra
+  de navegação inferior, os links e as adaptações responsivas.
+  Todo o restante (conteúdo, cards, rodapé, etc.) foi omitido.
+====================================================================
+*/
+
+/* ===================================================================
+   SEÇÃO 1 — VARIÁVEIS CSS (tokens de design)
+   =================================================================== */
+:root {
+  /* Paleta UTFPR */
+  --utfpr-Yellow: #ffd200;
+  --utfpr-Yellow-light: #ffe84d;
+  --utfpr-Yellow-dark: #e9b400;
+  --utfpr-Yellow-darker: #c99700;
+
+  /* Escala de cinza */
+  --utfpr-white: #ffffff;
+  --utfpr-gray-light: #f8f9fa;
+  --utfpr-gray: #e9ecef;
+  --utfpr-gray-medium: #dee2e6;
+  --utfpr-gray-dark: #6c757d;
+  --utfpr-black: #212529;
+
+  /* Cores temáticas do Scratch (usadas em outros contextos, mas mantidas por referência) */
+  --scratch-motion: #4a6cd4;
+  --scratch-looks: #8a55d7;
+  --scratch-sound: #bb42c3;
+  --scratch-events: #ffbf00;
+  --scratch-control: #ff8c1a;
+  --scratch-sensing: #2ca5a2;
+  --scratch-operators: #5cb712;
+
+  /* Tokens utilitários */
+  --card-bg: #ffffff;
+  --border-color: #dee2e6;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --success-color: #28a745;
+}
+
+/* ===================================================================
+   SEÇÃO 2 — RESET GLOBAL E CONFIGURAÇÕES BASE
+   =================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--utfpr-black);
+  background: linear-gradient(135deg, var(--utfpr-gray-dark) 0%, #343a40 100%);
+}
+
+/* ===================================================================
+   SEÇÃO 3 — LAYOUT CONTAINER
+   =================================================================== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ===================================================================
+   SEÇÃO 4 — CABEÇALHO INFERIOR (BARRA DE NAVEGAÇÃO)
+   =================================================================== */
+.header-bottom {
+  background-color: var(--utfpr-gray-dark);
+  border-bottom: 3px solid var(--utfpr-Yellow-darker);
+}
+
+/* ===================================================================
+   SEÇÃO 5 — NAVEGAÇÃO PRINCIPAL
+   =================================================================== */
+nav ul {
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+nav li {
+  margin: 0;
+}
+
+nav a {
+  display: block;
+  padding: 10px 22px; /* REDUZIDO: antes era 16px vertical */
+  color: var(--utfpr-black);
+  text-decoration: none;
+  font-weight: 500;
+  line-height: 1.2; /* ADICIONADO: diminui a altura da linha do texto */
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+
+nav a:hover {
+  background-color: var(--utfpr-Yellow-dark);
+  color: var(--utfpr-black);
+  border-bottom-color: var(--utfpr-Yellow-light);
+}
+
+nav a.active {
+  background-color: var(--utfpr-Yellow);
+  border-bottom-color: var(--utfpr-black);
+  font-weight: bold;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: var(--utfpr-black);
+}
+
+/* ===================================================================
+   SEÇÃO 6 — ACESSIBILIDADE (foco por teclado e scroll suave)
+   =================================================================== */
+a:focus,
+button:focus {
+  outline: 3px solid var(--utfpr-Yellow);
+  outline-offset: 2px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===================================================================
+   SEÇÃO 7 — RESPONSIVIDADE
+   =================================================================== */
+
+/* ---- Tablets (max-width: 768px) ---- */
+@media (max-width: 768px) {
+  /* Menu vertical */
+  nav ul {
+    flex-direction: column;
+  }
+
+  nav a {
+    padding: 10px 20px; /* REDUZIDO: antes era 14px vertical */
+    text-align: center;
+  }
+}
+
+/* ---- Celulares (max-width: 480px) ---- */
+@media (max-width: 480px) {
+  /* Reduz o espaçamento lateral do container */
+  .container {
+    padding: 0 15px;
+  }
+
+  /* ADICIONADO: compacta ainda mais os links em telas muito pequenas */
+  nav a {
+    padding: 8px 15px;
+  }
+}
+
+/* ---- Redução de movimento (acessibilidade) ---- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===================================================================
+   SEÇÃO 3 — RODAPÉ (cópia fiel de rodape.css)
+   =================================================================== */
+
+/*
+===================================================================
+    CSS REDUZIDO E OTIMIZADO – Rodapé com espaços reduzidos
+    (Parte 1 – Variáveis e Reset)
+===================================================================
+*/
+
+/* ===================================================================
+   VARIÁVEIS CSS (cores usadas no rodapé e no main)
+   =================================================================== */
+:root {
+  --utfpr-Yellow: #ffd200;
+  --utfpr-Yellow-light: #ffe84d;
+  --utfpr-Yellow-dark: #e9b400;
+  --utfpr-Yellow-darker: #c99700;
+  --utfpr-white: #ffffff;
+  --utfpr-gray-light: #f8f9fa;
+  --utfpr-gray: #e9ecef;
+  --utfpr-gray-medium: #dee2e6;
+  --utfpr-gray-dark: #6c757d;
+  --utfpr-black: #212529;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ===================================================================
+   RESET GLOBAL
+   =================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--utfpr-black);
+  background: linear-gradient(135deg, var(--utfpr-gray-dark) 0%, #343a40 100%);
+}
+
+/* ===================================================================
+   CONTAINER (usado no rodapé e no conteúdo)
+   =================================================================== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ===================================================================
+   CONTEÚDO PRINCIPAL (main) – com espaçamento reduzido
+   =================================================================== */
+main {
+  padding: 20px 0; /* reduzido de 30px */
+  background: linear-gradient(
+    135deg,
+    var(--utfpr-gray-medium) 0%,
+    var(--utfpr-gray-dark) 100%
+  );
+  min-height: calc(100vh - 150px); /* reduzido de 200px */
+}
+
+/* ===================================================================
+   RODAPÉ (footer) – com espaçamentos verticais reduzidos
+   =================================================================== */
+footer {
+  background: linear-gradient(
+    135deg,
+    var(--utfpr-gray-medium) 0%,
+    var(--utfpr-gray-dark) 100%
+  );
+  color: var(--utfpr-black);
+  padding: 30px 0 15px 0; /* topo reduzido de 45px, base mantida */
+  border-top: 5px solid var(--utfpr-Yellow);
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Grid de colunas do rodapé – com espaçamento inferior bem reduzido */
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px; /* reduzido de 35px */
+  margin-bottom: 5px; /* <--- AQUI: reduzido de 20px para 5px (menor espaço entre o grid e o copyright) */
+}
+
+/* ===================================================================
+   SEÇÕES DO RODAPÉ – Títulos, textos, listas e links
+   =================================================================== */
+
+.footer-section h3 {
+  color: var(--utfpr-black);
+  margin-bottom: 6px; /* REDUZIDO: 12px → 6px */
+  font-size: 1.25rem;
+  border-bottom: 2px solid var(--utfpr-Yellow-light);
+  padding-bottom: 4px; /* REDUZIDO: 8px → 4px */
+  display: inline-block;
+}
+
+.footer-section p,
+.footer-section li {
+  margin-bottom: 4px; /* REDUZIDO: 10px → 4px */
+  line-height: 1.4; /* ADICIONADO: reduz espaço entre linhas do texto */
+  opacity: 0.95;
+  color: var(--utfpr-black);
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section a {
+  color: var(--utfpr-black);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.footer-section a:hover {
+  opacity: 0.9;
+  border-bottom-color: var(--utfpr-black);
+}
+
+/* ===================================================================
+   COPYRIGHT – com espaçamento superior reduzido
+   =================================================================== */
+.copyright {
+  text-align: center;
+  padding-top: 5px; /* <--- AQUI: reduzido de 15px para 5px (menos espaço acima do copyright) */
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  opacity: 0.9;
+  font-size: 0.92rem;
+  color: var(--utfpr-black);
+}
+/* ===================================================================
+   SEÇÃO 4 — CONTEÚDO (regras de style.css efetivamente usadas no
+   olho_de_sogra_1.html — cópia fiel, sem alteração)
+   =================================================================== */
+
+/*
+Objetivo: Padronizar a apresentação visual dos elementos HTML do projeto Scratch na Educação Básica
+Desenvolvido por: Gisele Nunes, Rodrigo Barbosa
+Data: Segundo semestre de 2025
+*/
+
+/* ====== RESET E CONFIGURAÇÕES GLOBAIS ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--utfpr-black);
+  background: linear-gradient(135deg, var(--utfpr-gray-dark) 0%, #343a40 100%);
+}
+
+/* ====== LAYOUT CONTAINER ====== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ====== CONTEÚDO PRINCIPAL ====== */
+main {
+  padding: 30px 0;
+  background: linear-gradient(
+    135deg,
+    var(--utfpr-gray-medium) 0%,
+    var(--utfpr-gray-dark) 100%
+  );
+  min-height: calc(100vh - 200px);
+}
+
+/* ====== CABEÇALHO DA PÁGINA ====== */
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 35px 0;
+  background: var(--utfpr-white);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(35, 31, 32, 0.3);
+  border: 2px solid var(--utfpr-gray);
+}
+
+.page-header h1 {
+  color: var(--utfpr-Yellow);
+  font-size: 2.6rem;
+  margin-bottom: 12px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: var(--utfpr-gray-dark);
+  margin-bottom: 18px;
+  font-weight: 500;
+}
+
+.authors {
+  font-style: italic;
+  color: var(--utfpr-gray-dark);
+  font-size: 0.95rem;
+}
+
+/* ====== SEÇÕES DE CONTEÚDO ====== */
+.content-section {
+  background: var(--utfpr-white);
+  padding: 32px;
+  margin-bottom: 32px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(35, 31, 32, 0.1);
+  border-left: 5px solid var(--utfpr-yellow-dark);
+  border: 1px solid var(--utfpr-gray-medium);
+  text-align: justify;
+  hyphens: auto;
+}
+
+.content-section h2 {
+  color: var(--utfpr-Yellow);
+  margin-bottom: 22px;
+  font-size: 1.9rem;
+  border-bottom: 2px solid var(--utfpr-Yellow-light);
+  padding-bottom: 12px;
+}
+
+.content-section h3 {
+  color: var(--utfpr-Yellow-dark);
+  margin: 28px 0 16px 0;
+  font-size: 1.45rem;
+  border-left: 3px solid var(--utfpr-Yellow);
+  padding-left: 12px;
+}
+
+.content-section h4 {
+  color: var(--utfpr-Yellow);
+  margin: 22px 0 12px 0;
+  font-size: 1.25rem;
+}
+
+.content-section h5 {
+  color: var(--utfpr-Yellow-dark);
+  margin: 18px 0 10px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.content-section p {
+  margin-bottom: 16px;
+  line-height: 1.7;
+}
+
+.content-section ul,
+.content-section ol {
+  margin: 18px 0;
+  padding-left: 32px;
+}
+
+.content-section li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.content-section ul ul,
+.content-section ol ol {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+
+.content-section a {
+  color: var(--utfpr-Yellow-dark);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.content-section a:hover {
+  border-bottom-color: var(--utfpr-Yellow-dark);
+}
+
+/* ====== CAIXA DE INFORMAÇÃO ====== */
+.info-box {
+  background: var(--utfpr-gray-light);
+  border-left: 4px solid var(--utfpr-Yellow);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+/* ====== CONEXÃO COM CURRÍCULO ====== */
+.curriculum-connection {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+  border-left: 4px solid var(--success-color);
+}
+
+/* ====== TABELAS ====== */
+.progression-table {
+  margin: 30px 0;
+  overflow-x: auto;
+}
+
+.progression-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.progression-table th {
+  background: var(--utfpr-Yellow);
+  color: var(--utfpr-black);
+  padding: 12px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.progression-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--utfpr-gray);
+}
+
+.progression-table tr:nth-child(even) {
+  background: var(--utfpr-gray-light);
+}
+
+/* ====== IMAGENS E MULTIMÍDIA ====== */
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin: 25px 0;
+  padding: 15px;
+  background-color: var(--utfpr-gray-light);
+  border-radius: 10px;
+  border: 1px solid var(--utfpr-gray-medium);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-caption {
+  text-align: center;
+  font-style: italic;
+  color: var(--utfpr-gray-dark);
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+
+/* ====== CÓDIGO E PRÉ-FORMATAÇÃO ====== */
+pre {
+  background-color: var(--utfpr-gray-light);
+  padding: 22px;
+  border-radius: 10px;
+  margin: 18px 0;
+  overflow-x: auto;
+  border-left: 5px solid var(--utfpr-Yellow);
+  border: 1px solid var(--utfpr-gray-medium);
+  font-size: 0.95rem;
+}
+
+code {
+  background-color: var(--utfpr-gray-light);
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.92rem;
+  border: 1px solid var(--utfpr-gray);
+  color: var(--utfpr-Yellow-dark);
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  color: var(--utfpr-black);
+  font-size: inherit;
+}
+
+/* ====== FÓRMULA ====== */
+.formula-box {
+  background: var(--utfpr-gray-light);
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+  border-left: 4px solid var(--utfpr-Yellow-dark);
+  font-family: 'Courier New', monospace;
+}
+
+/* ====== DICA ====== */
+.dica-box {
+  background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+  border: 1px solid var(--utfpr-Yellow-dark);
+  border-left: 4px solid var(--utfpr-Yellow-dark);
+  padding: 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+}
+
+/* ====== AVISO IMPORTANTE ====== */
+.aviso-importante {
+  background-color: var(--utfpr-gray-dark);
+  border: 3px solid var(--utfpr-Yellow-dark);
+  border-radius: 12px;
+  padding: 25px;
+  margin: 25px 0;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.aviso-importante h4 {
+  color: var(--utfpr-white);
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+/* ====== RODAPÉ (garantia de estilo mesmo em conjunto) ====== */
+footer {
+  background: linear-gradient(
+    135deg,
+    var(--utfpr-gray-medium) 0%,
+    var(--utfpr-gray-dark) 100%
+  );
+  color: var(--utfpr-black);
+  padding: 45px 0 25px 0;
+  border-top: 5px solid var(--utfpr-yellow);
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 35px;
+  margin-bottom: 35px;
+}
+
+.footer-section h3 {
+  color: var(--utfpr-black);
+  margin-bottom: 18px;
+  font-size: 1.25rem;
+  border-bottom: 2px solid var(--utfpr-Yellow-light);
+  padding-bottom: 8px;
+  display: inline-block;
+}
+
+.footer-section p,
+.footer-section li {
+  margin-bottom: 10px;
+  opacity: 0.95;
+  line-height: 1.6;
+  color: var(--utfpr-black);
+}
+
+.footer-section a {
+  color: var(--utfpr-black);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.footer-section a:hover {
+  opacity: 0.9;
+  border-bottom-color: var(--utfpr-black);
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.copyright {
+  text-align: center;
+  padding-top: 25px;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  opacity: 0.9;
+  font-size: 0.92rem;
+  color: var(--utfpr-black);
+}
+
+/* ====== ACESSIBILIDADE ====== */
+a:focus,
+button:focus {
+  outline: 3px solid var(--utfpr-Yellow);
+  outline-offset: 2px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ====== RESPONSIVIDADE – TABLETS ====== */
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .content-section {
+    padding: 25px;
+  }
+
+  .image-container {
+    margin: 20px 0;
+    padding: 12px;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .progression-table {
+    font-size: 0.9rem;
+  }
+}
+
+/* ====== RESPONSIVIDADE – CELULARES ====== */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  .page-header h1 {
+    font-size: 1.9rem;
+  }
+
+  .content-section h2 {
+    font-size: 1.6rem;
+  }
+
+  .content-section h3 {
+    font-size: 1.35rem;
+  }
+
+  .content-section {
+    padding: 20px;
+  }
+
+  .image-container {
+    margin: 15px 0;
+    padding: 10px;
+  }
+
+  .progression-table {
+    font-size: 0.8rem;
+  }
+}
+
+/* ====== ACESSIBILIDADE – REDUÇÃO DE MOVIMENTO ====== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===================================================================
+   SEÇÃO 5 — CLASSES DE SUPORTE ESPECÍFICAS DO olho_de_sogra_1.html
+   (Não existem nos anexos. São apenas auxiliares de layout para
+   os espaços de foto/vídeo, os downloads e a navegação entre partes.)
+   =================================================================== */
+
+/* ---- Espaço reservado para fotos e vídeos ---- */
+.media-placeholder {
+  width: 100%;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--utfpr-white),
+    var(--utfpr-white) 12px,
+    var(--utfpr-gray-light) 12px,
+    var(--utfpr-gray-light) 24px
+  );
+  border: 2px dashed var(--utfpr-gray-dark);
+  border-radius: 10px;
+  color: var(--utfpr-gray-dark);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.media-placeholder p {
+  margin: 6px 0;
+  color: var(--utfpr-gray-dark);
+}
+
+.media-placeholder .image-caption {
+  color: var(--utfpr-gray-dark);
+  font-style: italic;
+  font-size: 0.85rem;
+  margin-top: 12px;
+}
+
+/* ---- Grade de downloads ---- */
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.download-link {
+  display: block;
+  padding: 12px 16px;
+  background: linear-gradient(
+    135deg,
+    var(--utfpr-Yellow) 0%,
+    var(--utfpr-Yellow-dark) 100%
+  );
+  color: var(--utfpr-black);
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-align: center;
+  border: 2px solid var(--utfpr-Yellow-darker);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.download-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(
+    135deg,
+    var(--utfpr-Yellow-light) 0%,
+    var(--utfpr-Yellow) 100%
+  );
+}
+
+/* ---- Navegação entre partes (aviso temporário de continuação) ---- */
+.part-navigation {
+  background: var(--utfpr-gray-light);
+  border: 2px dashed var(--utfpr-Yellow-dark);
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 30px 0 10px 0;
+  text-align: center;
+  color: var(--utfpr-black);
+  font-size: 0.98rem;
+}
+
+.part-navigation p {
+  margin: 6px 0;
+}
+
+.part-navigation strong {
+  color: var(--utfpr-Yellow-darker);
+}
+
+/* ---- Responsividade das classes de suporte ---- */
+@media (max-width: 768px) {
+  .media-placeholder {
+    min-height: 180px;
+    padding: 15px;
+    font-size: 0.9rem;
+  }
+
+  .download-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+  }
+
+  .download-link {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .media-placeholder {
+    min-height: 150px;
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+
+  .download-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .part-navigation {
+    padding: 14px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* ===================================================================
+   SEÇÃO 6 — MODO ESCURO E IMPRESSÃO
+   (Adições específicas do olho_de_sogra_1.html — não alteram os anexos)
+   =================================================================== */
+
+/* ---- Container dos botões flutuantes ---- */
+.floating-actions {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 1000;
+}
+
+/* ---- Botão de tema (já existe .theme-toggle; reforço só o layout) ---- */
+.theme-toggle {
+  position: static; /* anula o "fixed" do anexo para funcionar dentro do container */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--utfpr-gray-dark);
+  color: var(--utfpr-white);
+  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.2s ease,
+    background-color 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.08);
+  background-color: var(--utfpr-Yellow-dark);
+  color: var(--utfpr-black);
+}
+
+/* ---- Botão de impressão flutuante ---- */
+.print-button-floating {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--utfpr-Yellow-dark);
+  color: var(--utfpr-black);
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.2s ease,
+    background-color 0.3s ease;
+}
+
+.print-button-floating:hover {
+  transform: scale(1.08);
+  background-color: var(--utfpr-Yellow);
+}
+
+/* ===================================================================
+   AJUSTES DE MODO ESCURO PARA COMPONENTES ESPECÍFICOS DESTA PÁGINA
+   (os componentes genéricos já têm regras no anexo style.css)
+   =================================================================== */
+
+body.dark-mode .media-placeholder {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--utfpr-white),
+    var(--utfpr-white) 12px,
+    var(--utfpr-gray-light) 12px,
+    var(--utfpr-gray-light) 24px
+  );
+  color: var(--utfpr-black);
+  border-color: var(--utfpr-gray-dark);
+}
+
+body.dark-mode .media-placeholder p,
+body.dark-mode .media-placeholder .image-caption {
+  color: var(--utfpr-black);
+}
+
+body.dark-mode .download-link {
+  background: linear-gradient(
+    135deg,
+    var(--utfpr-Yellow-dark) 0%,
+    var(--utfpr-Yellow-darker) 100%
+  );
+  color: var(--utfpr-white);
+  border-color: var(--utfpr-Yellow-darker);
+}
+
+body.dark-mode .download-link:hover {
+  background: linear-gradient(
+    135deg,
+    var(--utfpr-Yellow) 0%,
+    var(--utfpr-Yellow-dark) 100%
+  );
+  color: var(--utfpr-black);
+}
+
+body.dark-mode .part-navigation {
+  background: var(--utfpr-gray-light);
+  color: var(--utfpr-black);
+  border-color: var(--utfpr-Yellow);
+}
+
+body.dark-mode .part-navigation strong {
+  color: var(--utfpr-Yellow);
+}
+
+body.dark-mode .formula-box,
+body.dark-mode .info-box,
+body.dark-mode .dica-box,
+body.dark-mode .curriculum-connection,
+body.dark-mode .progression-table table {
+  background: var(--utfpr-white);
+  color: var(--utfpr-black);
+}
+
+body.dark-mode .progression-table tr:nth-child(even) {
+  background: var(--utfpr-gray-light);
+}
+
+body.dark-mode .progression-table th {
+  background: var(--utfpr-Yellow-dark);
+  color: var(--utfpr-black);
+}
+
+body.dark-mode .page-header {
+  background: var(--utfpr-white);
+  color: var(--utfpr-black);
+  border-color: var(--utfpr-Yellow);
+}
+
+body.dark-mode .page-header h1 {
+  color: var(--utfpr-Yellow);
+}
+
+body.dark-mode .content-section {
+  background: var(--utfpr-white);
+  color: var(--utfpr-black);
+  border-color: var(--utfpr-gray-medium);
+}
+
+body.dark-mode .content-section h2 {
+  color: var(--utfpr-Yellow);
+  border-bottom-color: var(--utfpr-Yellow-dark);
+}
+
+body.dark-mode .content-section h3 {
+  color: var(--utfpr-Yellow-light);
+  border-left-color: var(--utfpr-Yellow);
+}
+
+body.dark-mode .content-section a {
+  color: var(--utfpr-Yellow-light);
+}
+
+body.dark-mode .content-section a:hover {
+  border-bottom-color: var(--utfpr-Yellow-light);
+}
+
+body.dark-mode pre,
+body.dark-mode code {
+  background-color: var(--utfpr-gray-light);
+  color: var(--utfpr-black);
+  border-color: var(--utfpr-gray-medium);
+}
+
+body.dark-mode pre code {
+  color: var(--utfpr-black);
+}
+
+/* ===================================================================
+   IMPRESSÃO DO CONTEÚDO DA PÁGINA
+   (Oculta cabeçalho, menu, rodapé e botões flutuantes; preserva o
+   conteúdo principal — texto, código, tabelas e imagens.)
+   =================================================================== */
+
+@media print {
+  /* Esconde navegação, rodapé e botões */
+  header,
+  .header-bottom,
+  .floating-actions,
+  .theme-toggle,
+  .print-button-floating,
+  .part-navigation,
+  .download-grid,
+  footer {
+    display: none !important;
+  }
+
+  /* Corpo em branco, texto preto, sem gradientes */
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+    line-height: 1.4;
+  }
+
+  main {
+    background: #ffffff !important;
+    padding: 0 !important;
+    min-height: auto !important;
+  }
+
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Cada seção vira um "bloco" imprimível, sem sombra nem borda decorativa */
+  .page-header,
+  .content-section {
+    background: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    border: 1px solid #000000 !important;
+    border-radius: 0 !important;
+    padding: 12px !important;
+    margin-bottom: 14px !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .content-section h2,
+  .content-section h3,
+  .content-section h4,
+  .page-header h1 {
+    color: #000000 !important;
+    border-color: #000000 !important;
+  }
+
+  /* Blocos de código: fundo branco, borda preta, fonte monoespaçada */
+  pre,
+  code {
+    background: #f5f5f5 !important;
+    color: #000000 !important;
+    border: 1px solid #999 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  pre code {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  /* Tabelas legíveis em papel */
+  .progression-table {
+    overflow: visible !important;
+  }
+
+  .progression-table table {
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+  }
+
+  .progression-table th {
+    background: #e9ecef !important;
+    color: #000 !important;
+    border-bottom: 1px solid #000 !important;
+  }
+
+  .progression-table td {
+    border-bottom: 1px solid #ccc !important;
+  }
+
+  /* Caixas com destaque mantêm borda preta fina */
+  .info-box,
+  .dica-box,
+  .formula-box,
+  .curriculum-connection,
+  .aviso-importante {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #000 !important;
+    border-left: 4px solid #000 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .aviso-importante h4 {
+    color: #000 !important;
+  }
+
+  /* Imagens / espaços reservados continuam visíveis, mas sem cor de fundo chamativa */
+  .image-container {
+    background: #ffffff !important;
+    border: 1px dashed #666 !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .media-placeholder {
+    background: #ffffff !important;
+    border: 1px dashed #666 !important;
+    color: #333 !important;
+  }
+
+  /* Links: exibe a URL entre parênteses para referência no papel */
+  .content-section a[href]:not([href^='#'])::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    color: #555;
+  }
+
+  /* Quebra de página antes de cada grande seção (opcional, ajuda na leitura) */
+  .content-section {
+    page-break-before: auto;
+  }
+
+  /* Reforça o "imprimir cores de fundo" apenas onde é útil (th) */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

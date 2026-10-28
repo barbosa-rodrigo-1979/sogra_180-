@@ -1,0 +1,1518 @@
+<!-- ============================================================================ Nome do arquivo: olho_de_sogra_1.html Objetivo: Apresentar o documento didático da fase 1 do radar ultrassônico com Arduino e Processing. Desenvolvido por: Gisele Nunes, Rodrigo Barbosa Data: Segundo semestre de 2026 ============================================================================ -->
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark light" />
+    <title>
+      Projeto Sogra 180º: Radar Ultrassônico com Arduino e Processing
+    </title>
+    <link rel="stylesheet" href="../assets/css/olho_de_sogra_1.css" />
+  </head>
+  <body class="dark-mode">
+    <!-- ========== CABEÇALHO  ========== -->
+    <header>
+      <div class="header-top">
+        <div class="container">
+          <div class="logo-container">
+            <img
+              src="../assets/images/UTFPR_logo.png"
+              alt="UTFPR Logo"
+              class="logo"
+            />
+            <div class="institution-name">
+              Universidade Tecnológica Federal do Paraná<br />
+              <small>Campus Siqueira Campos</small>
+            </div>
+          </div>
+          <div class="header-title">
+            <center>
+              Projeto sogra 180º: <br />Quando a sogra ganha um Arduino,
+              <br />até o capeta pede privacidade!
+            </center>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========== MENU PRINCIPAL ========== -->
+    <div class="header-bottom">
+      <div class="container">
+        <nav>
+          <ul>
+            <li>
+              <a href="../index.html" aria-current="page">Página Inicial</a>
+            </li>
+            <li>
+              <a href="olho_de_sogra_1.html" class="active"> 1º fase</a>
+            </li>
+            <li><a href="olho_de_sogra_2.html"> 2º fase</a></li>
+            <li><a href="utfpr.html"> UTFPR</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <!-- ========== CONTEÚDO PRINCIPAL ========== -->
+    <main>
+      <div class="container">
+        <!-- ===== TÍTULO DO DOCUMENTO ===== -->
+        <div class="page-header">
+          <h1>📡 RADAR ULTRASSÔNICO <br />COM ARDUINO + PROCESSING</h1>
+          <p class="subtitle">
+            Documento Didático Fase 1: O Básico 100% Funcional
+          </p>
+          <p class="authors">
+            <strong>Autores do projeto:</strong> Gisele Nunes e Rodrigo Barbosa
+          </p>
+        </div>
+
+        <!-- ===== AVISO IRREVERENTE ===== -->
+        <div class="aviso-importante">
+          <h4>Aviso</h4>
+          <p>
+            Este documento não foi escrito para ser “consultado”. Foi escrito
+            para ser
+            <strong
+              >lido com o Arduino na mão e o Processing aberto do lado</strong
+            >. Se você ler inteiro sem rodar nada, o radar continua não girando.
+            E aí a culpa não é do servo.
+          </p>
+        </div>
+
+        <!-- ===== SEÇÃO 1: O QUE ESTE PROJETO É (E O QUE NÃO É) ===== -->
+        <section class="content-section" id="secao-1">
+          <h2>🎯 1. O que este projeto é (e o que ele não é)</h2>
+
+          <h3>1.1 Em uma frase</h3>
+          <p>
+            Um <strong>servo motor</strong> varre um
+            <strong>sensor ultrassônico</strong>
+            de 15° a 165° e de volta; o sensor mede distância; um Arduino envia
+            os pares
+            <code>ângulo,distância.</code> pela serial; um sketch em Processing
+            desenha um radar verde que faz <em>fade</em> e mostra o objeto mais
+            próximo em vermelho.
+          </p>
+
+          <h3>1.2 O que ele É</h3>
+          <ul>
+            <li>
+              Um sistema
+              <strong>embarcado + visualização desktop</strong> completo.
+            </li>
+            <li>
+              Um exercício de <strong>protocolo serial</strong> simples,
+              tolerante a falhas e fácil de depurar.
+            </li>
+            <li>
+              Um projeto de <strong>cinemática de servo</strong>,
+              <strong>física de ultrassom</strong> e
+              <strong>geometria polar</strong> ao mesmo tempo.
+            </li>
+            <li>
+              Um material que <strong>cabe em uma aula dupla</strong> de
+              robótica e sobra tempo para o café.
+            </li>
+          </ul>
+
+          <h3>1.3 O que ele NÃO é</h3>
+          <ul>
+            <li>Não é LiDAR. Não tem precisão milimétrica.</li>
+            <li>
+              Não compensa <strong>temperatura</strong> (a fase 1 usa 340 m/s
+              fixo e isso é uma escolha pedagógica, não um bug).
+            </li>
+            <li>
+              Não tem <strong>filtro de Kalman</strong>, nem
+              <strong>fusão de sensores</strong>, nem <strong>ROS</strong>. É
+              fase 1. Respira.
+            </li>
+          </ul>
+
+          <div class="info-box">
+            <p>
+              💡 <strong>Por que a fase 1 ignora a temperatura?</strong>
+              Porque o HC-SR04 usa internamente uma referência de 340 m/s, e o
+              código do Arduino usa
+              <code>0.034 cm/µs</code>. Em 0 °C a velocidade real cai para ~331
+              m/s, e em 40 °C sobe para ~355 m/s até 4% de variação. A fase 1
+              troca essa precisão por <strong>simplicidade pedagógica</strong>.
+              A fase 2 pode adicionar um DS18B20 e corrigir a fórmula. Mas isso
+              é conversa para depois.
+            </p>
+          </div>
+
+          <!-- ===== LOCAL PARA FOTO 1 ===== -->
+          <div class="image-container">
+            <div class="media-placeholder">
+              <p>
+                <img
+                  src="../assets/images/componentes_bancada.jpg"
+                  alt="Componentes em detalhes, soltos, prontos para serem utilizados."
+                />
+              </p>
+            </div>
+          </div>
+        </section>
+        <!-- ===== SEÇÃO 2: HARDWARE OS TRÊS MOSQUETEIROS ===== -->
+        <section class="content-section" id="secao-2">
+          <h2>🧠 2. Hardware: os três mosqueteiros</h2>
+
+          <h3>2.1 HC-SR04 o morcego de bolso</h3>
+          <p>
+            <strong>Pinos usados no projeto:</strong> <code>trigPin = 10</code>,
+            <code>echoPin = 11</code>.
+          </p>
+          <p>
+            O HC-SR04 tem quatro pinos: VCC, GND, Trig e Echo. O funcionamento é
+            um
+            <strong>eco de morcego</strong>:
+          </p>
+          <ol>
+            <li>
+              O Arduino manda um <strong>pulso HIGH de 10 µs</strong> no pino
+              Trig.
+            </li>
+            <li>
+              O módulo dispara <strong>8 ciclos de ultrassom a 40 kHz</strong>.
+            </li>
+            <li>
+              O pino Echo fica
+              <strong
+                >HIGH pelo tempo que o som leva para ir até o obstáculo e
+                voltar</strong
+              >.
+            </li>
+            <li>O Arduino mede esse tempo e aplica:</li>
+          </ol>
+
+          <div class="formula-box">
+            <p><strong>d = (t × v) / 2</strong></p>
+          </div>
+
+          <p>
+            O divisor 2 existe porque o som <strong>vai e volta</strong>. O
+            código usa <code>v = 0.034 cm/µs</code> (equivalente a 340 m/s).
+          </p>
+
+          <div class="dica-box">
+            <p>
+              🧛 <strong>Detalhe de mestre:</strong> sem <code>timeout</code>, o
+              <code>pulseIn()</code> pode ficar bloqueado por até
+              <strong>1 segundo</strong> quando não há eco. O código usa
+              <code>pulseIn(echoPin, HIGH, 30000)</code> 30 ms, o equivalente a
+              ~5 metros de ida e volta. Isso é
+              <strong>resiliência de sistema</strong>, não frescura.
+            </p>
+          </div>
+
+          <!-- ===== LOCAL PARA DIAGRAMA / FOTO DO HC-SR04 ===== -->
+          <div class="image-container">
+            <div class="media-placeholder">
+              <p>
+                <img
+                  src="../assets/images/HC-SR04-Arduino.png"
+                  alt="Diagrama do sensor ultrassônico HC-SR04"
+                />
+              </p>
+            </div>
+          </div>
+
+          <h3>2.2 SG90 o servo que só quer um pulso</h3>
+          <p><strong>Pino usado:</strong> <code>servoPin = 12</code>.</p>
+          <p>
+            O SG90 é um servo de <strong>180°</strong>. Ele não entende “graus”.
+            Ele entende <strong>largura de pulso</strong>:
+          </p>
+
+          <div class="progression-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Largura do pulso</th>
+                  <th>Ângulo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>0,5 ms</td>
+                  <td>0°</td>
+                </tr>
+                <tr>
+                  <td>1,0 ms</td>
+                  <td>45°</td>
+                </tr>
+                <tr>
+                  <td><strong>1,5 ms</strong></td>
+                  <td><strong>90°</strong></td>
+                </tr>
+                <tr>
+                  <td>2,0 ms</td>
+                  <td>135°</td>
+                </tr>
+                <tr>
+                  <td>2,5 ms</td>
+                  <td>180°</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>
+            A cada <strong>20 ms</strong> chega um pulso; o que importa é
+            <strong>quanto tempo ele fica em HIGH</strong>. A biblioteca
+            <code>Servo</code> do Arduino abstrai isso:
+            <code>myServo.write(90)</code> já gera o pulso de 1,5 ms.
+          </p>
+
+          <div class="dica-box">
+            <p>
+              ⚠️
+              <strong
+                >Por que o projeto centraliza em 90° antes de começar?</strong
+              >
+              Porque o servo pode estar em qualquer posição ao ligar. Um
+              “tranco” de 0° para 165° é feio, esquenta o motor e assusta o
+              cachorro.
+              <code>myServo.write(90); delay(300);</code> é
+              <strong>elegância mecânica</strong>.
+            </p>
+          </div>
+
+          <!-- ===== LOCAL PARA FOTO DO SERVO ===== -->
+          <div class="image-container">
+            <div class="media-placeholder">
+              <p>
+                <img
+                  src="../assets/images/SG90_e_HC-SR04.png"
+                  alt=" Servo SG90 com o HC-SR04 acoplado ao eixo"
+                />
+              </p>
+            </div>
+          </div>
+
+          <h3>2.3 Arduino o maestro</h3>
+          <p>
+            O Arduino Uno faz três coisas ao mesmo tempo (não literalmente, mas
+            quase):
+          </p>
+          <ul>
+            <li>
+              <strong>Gera PWM</strong> para o servo (via biblioteca
+              <code>Servo</code>).
+            </li>
+            <li><strong>Dispara e lê</strong> o HC-SR04.</li>
+            <li>
+              <strong>Envia</strong> <code>"ângulo,distância."</code> pela
+              serial a 9600 bps.
+            </li>
+          </ul>
+
+          <div class="curriculum-connection">
+            <p>
+              🎓 <strong>BNCC EM13CO16</strong> “Desenvolver projetos com
+              robótica, utilizando artefatos físicos ou simuladores.” Este é o
+              coração do projeto: um artefato físico que integra atuador (servo)
+              e sensor (ultrassom) sob controle de firmware.
+            </p>
+          </div>
+        </section>
+
+        <!-- ===== SEÇÃO 3: ARQUITETURA DO CÓDIGO ===== -->
+        <section class="content-section" id="secao-3">
+          <h2>🔌 3. Arquitetura do código: por que separar tanto?</h2>
+          <p>O projeto tem <strong>dois lados</strong>:</p>
+
+          <div class="progression-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Lado</th>
+                  <th>Linguagem</th>
+                  <th>Responsabilidade</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Arduino</strong></td>
+                  <td>
+                    C++ (<code>.ino</code>, <code>.h</code>, <code>.cpp</code>)
+                  </td>
+                  <td>Medir, mover o servo, <strong>enviar</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>Processing</strong></td>
+                  <td>Java (<code>.pde</code> + <code>.java</code>)</td>
+                  <td><strong>Receber</strong>, interpretar, desenhar</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>3.1 Lado Arduino: três arquivos, uma obsessão por clareza</h3>
+          <p>
+            O projeto <strong>não joga tudo no <code>.ino</code></strong
+            >. Ele separa:
+          </p>
+          <ul>
+            <li>
+              <code>codigo_radar.h</code> → <strong>declarações</strong> (pinos,
+              protótipo, <code>extern Servo myServo</code>).
+            </li>
+            <li>
+              <code>codigo_radar.cpp</code> → <strong>implementação</strong> de
+              <code>calculateDistance()</code> e a <strong>definição</strong> do
+              servo.
+            </li>
+            <li>
+              <code>codigo_radar.ino</code> → <strong>fluxo</strong> (<code
+                >setup()</code
+              >
+              e <code>loop()</code>).
+            </li>
+          </ul>
+          <p>
+            Isso é <strong>modularidade de firmware</strong>. Em projetos
+            maiores, essa separação evita que o <code>.ino</code> vire um
+            pergaminho de 800 linhas que ninguém quer abrir.
+          </p>
+
+          <h3>3.2 Lado Processing: cada classe no seu quadrado</h3>
+          <p>
+            O sketch principal <code>radar_independente.pde</code> só
+            <strong>liga as peças</strong>:
+          </p>
+
+          <pre><code>Config → constantes (porta, baud, cores, textos)
+Leitura → modelo imutável (ângulo + distância)
+ParserPacote → texto → Leitura (Java puro, testável sem Processing)
+SensorSerial → porta serial
+Layout → geometria responsiva
+RadarView → desenho do radar
+InfoBar → barra inferior
+Janela → maximizar/restaurar</code></pre>
+
+          <p>
+            <strong
+              >Nenhuma classe de domínio conhece
+              <code>PApplet</code> diretamente</strong
+            >, exceto as de visualização. <code>Leitura</code>,
+            <code>Config</code> e <code>ParserPacote</code> são
+            <strong>Java puro</strong>. Isso permite testar o parser com
+            <code>JUnit</code> sem abrir uma janela. É design de verdade, não só
+            “funciona na minha máquina”.
+          </p>
+
+          <div class="curriculum-connection">
+            <p>
+              🎓 <strong>BNCC EM13CO01</strong> “Explorar e construir a solução
+              de problemas por meio da reutilização de partes de soluções
+              existentes.” O parser de pacote, a leitura imutável e o layout
+              responsivo são <strong>partes reutilizáveis</strong> que podem ir
+              para qualquer projeto futuro com serial.
+            </p>
+          </div>
+
+          <!-- ===== LOCAL PARA DIAGRAMA DE ARQUITETURA ===== -->
+          <div class="image-container">
+            <div class="media-placeholder">
+              <p>
+                <img
+                  src="../assets/images/Arquitetura_Radar Arduino_Processing.png"
+                  alt="Arquitetura dos códigos Arduino e Radar"
+                />
+              </p>
+            </div>
+          </div>
+        </section>
+        <!-- ===== SEÇÃO 4: LADO ARDUINO, LINHA POR LINHA ===== -->
+        <section class="content-section" id="secao-4">
+          <h2>4. Lado Arduino, linha por linha</h2>
+
+          <!-- 4.1 -->
+          <h3>4.1 <code>codigo_radar.h</code> o contrato</h3>
+
+          <pre><code>#ifndef CODIGO_RADAR_H
+#define CODIGO_RADAR_H
+
+#include &lt;Arduino.h&gt;
+#include &lt;Servo.h&gt;</code></pre>
+
+          <p>
+            <code>#ifndef / #define / #endif</code> é a
+            <strong>guarda de inclusão</strong>. Sem ela, se o header for
+            incluído duas vezes, o compilador reclama de redefinição. É o básico
+            que separa código de garagem de código que escala.
+          </p>
+
+          <pre><code>const int trigPin = 10;
+const int echoPin = 11;
+const int servoPin = 12;</code></pre>
+
+          <p>
+            <strong>Constantes de pino.</strong> <code>const int</code> em vez
+            de <code>#define</code> porque tem tipo, escopo e o compilador pode
+            otimizar.
+          </p>
+
+          <pre><code>extern Servo myServo;</code></pre>
+
+          <p>
+            <code>extern</code> diz: “existe um <code>myServo</code> em algum
+            lugar, não aloque memória aqui”. A
+            <strong>definição real</strong> fica no <code>.cpp</code>. Isso
+            evita <strong>múltiplas definições</strong> se o header for incluído
+            em vários <code>.cpp</code>.
+          </p>
+
+          <pre><code>int calculateDistance();</code></pre>
+
+          <p>
+            <strong>Protótipo.</strong> O <code>.ino</code> precisa saber que
+            essa função existe antes de chamá-la no <code>loop()</code>. O corpo
+            está no <code>.cpp</code>.
+          </p>
+
+          <!-- 4.2 -->
+          <h3>4.2 <code>codigo_radar.cpp</code> a física aplicada</h3>
+
+          <pre><code>#include "codigo_radar.h"
+
+Servo myServo;</code></pre>
+
+          <p>
+            Aqui está a <strong>definição</strong> do servo. Uma única vez, em
+            um único <code>.cpp</code>.
+          </p>
+
+          <pre><code>int calculateDistance() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);</code></pre>
+
+          <p><strong>Sequência de disparo:</strong></p>
+          <ol>
+            <li><code>LOW</code> por 2 µs → garante nível baixo estável.</li>
+            <li>
+              <code>HIGH</code> por <strong>10 µs</strong> → requisito do
+              HC-SR04.
+            </li>
+            <li><code>LOW</code> → o módulo dispara os 8 ciclos de 40 kHz.</li>
+          </ol>
+
+          <pre><code>  long duration = pulseIn(echoPin, HIGH, 30000);</code></pre>
+
+          <p>
+            <code>pulseIn</code> mede o tempo em
+            <strong>microssegundos</strong> que o pino Echo fica em HIGH. O
+            terceiro argumento é o <strong>timeout</strong>: se nenhum eco
+            chegar em 30 ms, retorna 0. Sem timeout, o bloqueio poderia chegar a
+            ~1 s.
+          </p>
+
+          <pre><code>  if (duration == 0) return -1;
+  int dist = (int)(duration * 0.034 / 2.0);
+  if (dist &lt; 2 || dist &gt; 400) return -1;
+  return dist;
+}</code></pre>
+
+          <p>
+            <strong>Fórmula:</strong>
+            <code>distância = (tempo × velocidade) / 2</code>.
+            <code>0.034 cm/µs</code> é 340 m/s. O <code>/2.0</code> é ida e
+            volta. O filtro <code>2–400 cm</code> é a faixa útil do HC-SR04.
+            <code>-1</code> sinaliza <strong>leitura inválida</strong> e o
+            <code>loop()</code> só envia <code>d &gt; 0</code>.
+          </p>
+
+          <div class="curriculum-connection">
+            <p>
+              🎓 <strong>BNCC EF05MA19</strong> “Resolver e elaborar
+              situações-problema envolvendo medidas de diferentes grandezas como
+              comprimento, massa, tempo, temperatura, capacidade e área.” Aqui o
+              aluno <strong>converte tempo (µs) em comprimento (cm)</strong> com
+              uma fórmula física real. Não é “regra de três de livro”: é regra
+              de três que faz um servo parar de bater na parede.
+            </p>
+          </div>
+
+          <!-- ===== LOCAL PARA FOTO DA MONTAGEM ELÉTRICA ===== -->
+          <div class="image-container">
+            <div class="media-placeholder">
+              <p>
+                📷 <strong>Espaço para foto:</strong> Detalhe da ligação
+                Trigger/Echo no Arduino (pinos 10 e 11).
+              </p>
+              <p class="image-caption">
+                <img
+                  src="../assets/images/Arduino_ Servo SG90 e HC-SR04.png"
+                  alt="Conexão entre Arduino, SG90 e HC-SR04"
+                />
+              </p>
+            </div>
+          </div>
+
+          <!-- 4.3 -->
+          <h3>4.3 <code>codigo_radar.ino</code> o loop que varre o mundo</h3>
+
+          <pre><code>void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  Serial.begin(9600);
+  myServo.attach(servoPin);
+  myServo.write(90);
+  delay(300);
+}</code></pre>
+
+          <ul>
+            <li>
+              <code>trigPin</code> é <strong>saída</strong> (Arduino dispara).
+            </li>
+            <li>
+              <code>echoPin</code> é <strong>entrada</strong> (sensor devolve).
+            </li>
+            <li><code>Serial.begin(9600)</code> → mesma taxa do Processing.</li>
+            <li>
+              <code>myServo.attach(servoPin)</code> → associa o objeto ao pino
+              físico.
+            </li>
+            <li>
+              <code>write(90) + delay(300)</code> →
+              <strong>centraliza com calma</strong>.
+            </li>
+          </ul>
+
+          <pre><code>void loop() {
+  for (int i = 15; i &lt;= 165; i++) {
+    myServo.write(i);
+    delay(30);
+    int d = calculateDistance();
+    if (d &gt; 0) {
+      Serial.print(i);
+      Serial.print(",");
+      Serial.print(d);
+      Serial.print(".");
+    }
+  }
+  for (int i = 165; i &gt; 15; i--) {
+    myServo.write(i);
+    delay(30);
+    int d = calculateDistance();
+    if (d &gt; 0) {
+      Serial.print(i);
+      Serial.print(",");
+      Serial.print(d);
+      Serial.print(".");
+    }
+  }
+}</code></pre>
+
+          <p>
+            <strong>Duas varreduras:</strong> 15° → 165° (ida) e 165° → 15°
+            (volta). A faixa <strong>15–165°</strong> evita as extremidades
+            mecânicas do SG90 e reduz o “tranco” nas bordas.
+          </p>
+
+          <p>
+            <strong><code>delay(30)</code></strong> é o
+            <strong>tempo de estabilização</strong>. O SG90 não é um servo
+            industrial: ele precisa de tempo para parar de tremer antes da
+            medição. 30 ms por grau é conservador e seguro.
+          </p>
+
+          <p><strong>O protocolo:</strong> <code>"ângulo,distância."</code></p>
+          <ul>
+            <li><code>,</code> separa campos.</li>
+            <li>
+              <code>.</code> marca <strong>fim de pacote</strong>. O Processing
+              usa <code>bufferUntil('.')</code>, então cada pacote chega inteiro
+              no <code>serialEvent</code>.
+            </li>
+          </ul>
+
+          <p>
+            <strong><code>if (d &gt; 0)</code></strong> → leituras inválidas
+            (<code>-1</code>) são <strong>descartadas</strong>. O Processing
+            nunca recebe lixo. Isso é
+            <strong>tolerância a falhas na origem</strong>.
+          </p>
+
+          <div class="curriculum-connection">
+            <p>
+              🎓 <strong>BNCC EM13CO16</strong> de novo: o <code>loop()</code> é
+              um <strong>projeto de robótica físico</strong> que integra atuador
+              e sensor em um ciclo de varredura. Não é simulação: é servo
+              girando, ultrassom disparando e serial enviando.
+            </p>
+          </div>
+
+          <!-- ===== LOCAL PARA VÍDEO DA VARREDURA (VÍDEO 1 - CORRIGIDO) ===== -->
+          <div class="image-container">
+            <div class="media-placeholder media-placeholder--video">
+              <video
+                class="video-responsive"
+                controls
+                loop
+                muted
+                playsinline
+                preload="metadata"
+                aria-label="Conjunto mecânico do radar em funcionamento."
+              >
+                <source
+                  src="../assets/images/video_bancada.mp4"
+                  type="video/mp4"
+                />
+                Seu navegador não suporta a exibição de vídeos.
+              </video>
+            </div>
+          </div>
+        </section>
+        <!-- ===== SEÇÃO 5: LADO PROCESSING, LINHA POR LINHA ===== -->
+        <section class="content-section" id="secao-5">
+          <h2>🖥️ 5. Lado Processing, linha por linha</h2>
+
+          <!-- 5.1 -->
+          <h3>5.1 <code>Config.java</code> o painel de controle</h3>
+
+          <pre><code>public final class Config {
+  private Config() {}</code></pre>
+
+          <p>
+            <strong>Classe final, construtor privado.</strong> Ninguém instancia
+            <code>Config</code>. Ninguém herda. É uma
+            <strong>coleção de constantes</strong>, não um objeto.
+          </p>
+
+          <pre><code>public static final int DISTANCIA_MAX = 40;</code></pre>
+
+          <p>
+            <strong>Aqui está uma decisão pedagógica importante:</strong> o
+            sensor do Arduino mede até 400 cm, mas o radar
+            <strong>desenha</strong> até 40 cm. Por quê?
+          </p>
+          <ul>
+            <li>
+              O radar é uma <strong>visualização de curto alcance</strong>.
+            </li>
+            <li>40 cm é uma mesa de robótica, um corredor, uma maquete.</li>
+            <li>
+              A barra de informação mostra <code>--</code> quando
+              <code>distancia &gt;= 40</code>.
+            </li>
+          </ul>
+
+          <p>
+            <strong
+              >Isso não é limitação técnica. É design de interface.</strong
+            >
+            O radar não mente: ele <strong>define um alcance visual</strong> e
+            trata o resto como “fora de alcance”.
+          </p>
+
+          <pre><code>public static final int RASTRO_ALFA = 4;</code></pre>
+
+          <p>
+            <strong>O segredo do rastro.</strong> A cada frame, um retângulo
+            preto com alpha 4 é desenhado sobre tudo. O que era verde vai
+            escurecendo lentamente. Quanto <strong>menor</strong> o alpha,
+            <strong>mais lento</strong> o desaparecimento. <code>4</code> é um
+            bom equilíbrio: o rastro dura alguns segundos, mas não vira uma bola
+            de sujeira.
+          </p>
+
+          <div class="curriculum-connection">
+            <p>
+              🎓
+              <strong>BNCC Competência Geral 5 Cultura Digital:</strong>
+              “Compreender, utilizar e criar tecnologias digitais de informação
+              e comunicação de forma crítica, significativa, reflexiva e ética”.
+              O <code>Config</code> é um exemplo de
+              <strong>criação tecnológica intencional</strong>: cada constante é
+              uma decisão de design documentada, não um número mágico perdido.
+            </p>
+          </div>
+
+          <!-- 5.2 -->
+          <h3>5.2 <code>Leitura.java</code> o dado imutável</h3>
+
+          <pre><code>public final class Leitura {
+  public final int angulo;
+  public final int distancia;
+
+  public Leitura(int angulo, int distancia) { ... }
+
+  public boolean temObjeto() {
+    return distancia &lt; Config.DISTANCIA_MAX;
+  }
+}</code></pre>
+
+          <p>
+            <strong>Imutável.</strong> Uma vez criada, não muda. Isso elimina
+            uma classe inteira de bugs de concorrência: o
+            <code>serialEvent</code> cria uma nova <code>Leitura</code>, atribui
+            a <code>ultima</code> (que é <code>volatile</code>), e o
+            <code>draw()</code> lê uma referência consistente.
+            <strong>Ninguém modifica o dado no meio do desenho.</strong>
+          </p>
+
+          <p>
+            <code>temObjeto()</code> encapsula a regra:
+            <strong>objeto = distância &lt; 40 cm</strong>. Se amanhã o alcance
+            mudar para 60, muda <strong>um</strong> lugar.
+          </p>
+
+          <!-- 5.3 -->
+          <h3>5.3 <code>ParserPacote.java</code> o filtro de lixo</h3>
+
+          <pre><code>public static Leitura interpretar(String pacote) {
+  if (pacote == null) return null;
+  String dado = pacote.trim();
+  if (dado.length() &gt; 0 &amp;&amp; dado.charAt(dado.length() - 1) == Config.DELIMITADOR_PACOTE) {
+    dado = dado.substring(0, dado.length() - 1).trim();
+  }
+  String[] partes = dado.split(SEP, -1);
+  if (partes.length != 2) return null;
+  try {
+    int angulo = Math.max(0, Math.min(180, Integer.parseInt(partes[0].trim())));
+    int distancia = Integer.parseInt(partes[1].trim());
+    if (distancia &lt; 0) return null;
+    return new Leitura(angulo, distancia);
+  } catch (NumberFormatException e) {
+    return null;
+  }
+}</code></pre>
+
+          <p><strong>O que esse método faz, em ordem:</strong></p>
+          <ol>
+            <li><code>null</code> → <code>null</code>.</li>
+            <li><code>trim()</code> remove espaços.</li>
+            <li>Remove o <code>.</code> final, se existir.</li>
+            <li>
+              <code>split(",", -1)</code> divide em
+              <strong>exatamente dois campos</strong>.
+            </li>
+            <li><code>Integer.parseInt</code> tenta converter.</li>
+            <li>
+              <strong>Clamp do ângulo:</strong>
+              <code>Math.max(0, Math.min(180, ...))</code> se o Arduino mandar
+              200°, vira 180°.
+            </li>
+            <li>Distância negativa → <code>null</code>.</li>
+            <li>Qualquer exceção → <code>null</code>.</li>
+          </ol>
+
+          <p>
+            <strong>Retornar <code>null</code> em vez de lançar exceção</strong>
+            é uma escolha deliberada: o <code>SensorSerial</code> faz
+            <code>if (nova != null) ultima = nova;</code>.
+            <strong>Pacote inválido não derruba o radar.</strong> Ele mantém a
+            última leitura boa.
+          </p>
+
+          <div class="curriculum-connection">
+            <p>
+              🎓 <strong>BNCC EM13CO12</strong> (produção/implementação) e
+              <strong>EM13CO01</strong> (reutilização): o parser é
+              <strong>Java puro</strong>, sem <code>PApplet</code>. Pode ser
+              testado isoladamente. Isso é
+              <strong>pensamento computacional aplicado à robustez</strong>.
+            </p>
+          </div>
+
+          <!-- 5.4 -->
+          <h3>5.4 <code>SensorSerial.java</code> a ponte</h3>
+
+          <pre><code>public class SensorSerial {
+  private Serial porta;
+  private volatile Leitura ultima = new Leitura(0, Config.DISTANCIA_MAX);</code></pre>
+
+          <p>
+            <code>volatile</code> <strong>não é enfeite</strong>. O
+            <code>serialEvent</code> roda em <strong>outra thread</strong>. Sem
+            <code>volatile</code>, o <code>draw()</code> poderia ler uma
+            referência obsoleta ou parcialmente construída.
+            <code>volatile</code> garante <strong>visibilidade</strong> entre
+            threads.
+          </p>
+
+          <pre><code>public boolean conectar(PApplet app) {
+  String[] portas = Serial.list();
+  String escolhida = Config.PORTA;
+  if (escolhida.equals("")) {
+    if (portas.length == 0) { return false; }
+    escolhida = portas[0];
+  }
+  try {
+    porta = new Serial(app, escolhida, Config.BAUD);
+    porta.bufferUntil(Config.DELIMITADOR_PACOTE);
+    return true;
+  } catch (Exception e) { ... return false; }
+}</code></pre>
+
+          <ul>
+            <li><code>Serial.list()</code> lista as portas.</li>
+            <li>
+              <code>Config.PORTA</code> vazio → pega a
+              <strong>primeira</strong>.
+            </li>
+            <li>
+              <code>bufferUntil('.')</code> → o <code>serialEvent</code> só
+              dispara quando um <code>.</code> chega.
+            </li>
+            <li>
+              <code>try/catch</code> → porta ocupada ou inexistente
+              <strong>não mata o sketch</strong>; ele continua rodando sem
+              dados.
+            </li>
+          </ul>
+
+          <pre><code>public void processar(Serial p) {
+  Leitura nova =
+    ParserPacote.interpretar(p.readStringUntil(Config.DELIMITADOR_PACOTE));
+  if (nova != null) ultima = nova;
+}</code></pre>
+
+          <p>
+            <strong>O coração da resiliência:</strong> se o parser retornar
+            <code>null</code>, <code>ultima</code> <strong>não muda</strong>. O
+            radar continua mostrando o último estado válido. Não pisca. Não
+            quebra.
+          </p>
+
+          <!-- 5.5 -->
+          <h3>5.5 <code>Layout.java</code> geometria que respira</h3>
+
+          <p>
+            O <code>Layout</code> é o cérebro geométrico do radar. Ele
+            <strong>só recalcula quando a janela muda de tamanho</strong>:
+          </p>
+
+          <pre><code>if (p.width == larguraAnterior &amp;&amp; p.height == alturaAnterior) return;</code></pre>
+
+          <p>
+            Isso evita recalcular <code>textWidth()</code> a cada frame caro e
+            desnecessário.
+          </p>
+
+          <p>
+            <strong><code>calcularInfo()</code>:</strong> reserva largura para o
+            <strong>pior caso</strong> (<code
+              >TXT_DIST_MAX = "Distancia: 999 cm"</code
+            >). Começa com uma fonte grande e
+            <strong>diminui 1 px por vez</strong> até caber ou chegar a 12 px.
+            Se ainda não couber, ativa <code>duasLinhas</code>.
+          </p>
+
+          <p>
+            <strong><code>calcularRadar()</code>:</strong>
+          </p>
+
+          <pre><code>cx = width / 2f;
+cy = height - alturaFaixa - height * 0.05f;
+raioPorLargura = width * 0.44f;
+raioPorAltura = (cy - height * 0.06f) / 1.08f;
+raio = max(10, min(raioPorLargura, raioPorAltura));</code></pre>
+
+          <p>
+            O raio é <strong>o menor entre</strong> o limite por largura e o
+            limite por altura. O radar <strong>nunca estoura</strong> a tela,
+            seja em 1280×720 ou em 4K.
+          </p>
+
+          <div class="curriculum-connection">
+            <p>
+              🎓 <strong>BNCC EF05MA19</strong> de novo, agora em
+              <strong>geometria de medidas</strong>: raio, diâmetro, proporção,
+              restrição de espaço. E <strong>Competência 5</strong> na veia:
+              criar uma interface que <strong>se adapta criticamente</strong> ao
+              contexto.
+            </p>
+          </div>
+
+          <!-- 5.6 -->
+          <h3>5.6 <code>RadarView.java</code> o desenho</h3>
+
+          <p><strong>Grade:</strong></p>
+
+          <pre><code>p.arc(0, 0, d, d, PI, TWO_PI);</code></pre>
+
+          <p>
+            <code>PI</code> a <code>TWO_PI</code> = semicírculo
+            <strong>superior</strong>. Quatro arcos = quatro anéis de distância.
+          </p>
+
+          <p>
+            <strong>Linhas de ângulo:</strong>
+            <code>linhaPolar(0, raio, a)</code> para 30°, 60°, 90°, 120°, 150°.
+          </p>
+
+          <p>
+            <strong>Rótulos:</strong> <code>cm</code> e
+            <code>°</code> posicionados em coordenadas polares.
+          </p>
+
+          <p><strong>Varredura:</strong></p>
+
+          <pre><code>p.stroke(COR_VARREDURA);
+linhaPolar(0, l.raio, leitura.angulo);</code></pre>
+
+          <p>Uma linha verde do centro até a borda no ângulo atual.</p>
+
+          <p><strong>Objeto:</strong></p>
+
+          <pre><code>float pix = leitura.distancia * l.raio / Config.DISTANCIA_MAX;
+p.stroke(COR_OBJETO);
+linhaPolar(pix, l.raio, leitura.angulo);</code></pre>
+
+          <p>
+            A linha vermelha começa na <strong>distância proporcional</strong> e
+            vai até a borda. <code>pix</code> é a
+            <strong>projeção linear</strong> da distância no raio do radar.
+          </p>
+
+          <div class="curriculum-connection">
+            <p>
+              🎓 <strong>BNCC EF08MA19</strong> (se aplicável ao currículo
+              local) e <strong>EM13MAT315</strong>: proporcionalidade,
+              coordenadas polares, transformação de unidades (cm → pixels).
+            </p>
+          </div>
+
+          <!-- ===== LOCAL PARA CAPTURA DO RADAR ===== -->
+          <div class="image-container">
+            <div class="media-placeholder">
+              <p>
+                🖼️ <strong>Espaço para imagem:</strong> Captura de tela do radar
+                em funcionamento grade, varredura verde e objeto vermelho.
+              </p>
+              <p class="image-caption">
+                Figura 6 Sugestão: screenshot do Processing com um obstáculo
+                detectado a ~25 cm.
+              </p>
+            </div>
+          </div>
+
+          <!-- 5.7 -->
+          <h3>5.7 <code>InfoBar.java</code> o painel que não pisca</h3>
+
+          <pre><code>p.noStroke();
+p.fill(0);
+p.rect(0, height - l.alturaFaixa, width, l.alturaFaixa);</code></pre>
+
+          <p>
+            <strong>Faixa preta opaca</strong> antes de desenhar o texto. Isso
+            <strong>apaga o frame anterior</strong> sem depender do
+            <code>background()</code> do <code>draw()</code>. O
+            <code>draw()</code> faz <code>fill(0, 4)</code> para o rastro; a
+            <code>InfoBar</code> <strong>sobrepõe</strong> uma faixa sólida.
+          </p>
+
+          <p>
+            <strong>Três colunas:</strong> título à esquerda, ângulo ao centro,
+            distância à direita (ou duas linhas, se o layout decidir).
+          </p>
+
+          <p><strong>Cor condicional:</strong></p>
+
+          <pre><code>if (leitura.temObjeto()) {
+  valor = leitura.distancia + " cm";
+  p.fill(COR_RADAR); // verde
+} else {
+  valor = "--";
+  p.fill(COR_SEM_OBJETO); // laranja
+}</code></pre>
+
+          <p>
+            <strong
+              >Verde = objeto dentro do alcance. Laranja = nada. Vermelho =
+              objeto desenhado no radar.</strong
+            >
+            Três cores, três estados, zero ambiguidade.
+          </p>
+
+          <!-- 5.8 -->
+          <h3>5.8 <code>radar_independente.pde</code> o maestro</h3>
+
+          <pre><code>void draw() {
+  Leitura leitura = sensor.ler();
+  noStroke();
+  fill(0, Config.RASTRO_ALFA);
+  rect(0, 0, width, height);
+  layout.atualizar();
+  radar.desenhar(layout, leitura);
+  infoBar.desenhar(layout, leitura);
+}</code></pre>
+
+          <p><strong>Ordem importa:</strong></p>
+          <ol>
+            <li>
+              <strong>Rastro:</strong> retângulo preto translúcido sobre tudo.
+            </li>
+            <li><strong>Layout:</strong> recalcula só se a janela mudou.</li>
+            <li><strong>Radar:</strong> grade, varredura, objeto.</li>
+            <li>
+              <strong>InfoBar:</strong> por último, <strong>opaca</strong>,
+              sobrepondo o rastro.
+            </li>
+          </ol>
+
+          <p>
+            <code>serialEvent(Serial p)</code> fica no sketch porque o
+            Processing exige. Ele só chama <code>sensor.processar(p)</code>.
+          </p>
+
+          <p>
+            <code>keyPressed()</code>: em modo janela, <code>F</code> alterna
+            maximizada.
+          </p>
+
+          <!-- ===== LOCAL PARA VÍDEO DO RADAR EM FUNCIONAMENTO (VÍDEO 2 - CORRIGIDO) ===== -->
+          <div class="image-container">
+            <div class="media-placeholder media-placeholder--video">
+              <video
+                class="video-responsive"
+                controls
+                loop
+                muted
+                playsinline
+                preload="metadata"
+                aria-label="Tela dividida (Arduino + Processing) durante uma varredura completa."
+              >
+                <source
+                  src="../assets/images/tela_dividida.mp4"
+                  type="video/mp4"
+                />
+                Seu navegador não suporta a exibição de vídeos.
+              </video>
+            </div>
+          </div>
+        </section>
+        <!-- ===== SEÇÃO 6: BNCC ===== -->
+        <section class="content-section" id="secao-6">
+          <h2>
+            6. BNCC: onde o projeto “cai” no currículo (sem forçar a barra)
+          </h2>
+
+          <div class="progression-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Descrição</th>
+                  <th>Onde acontece <strong>neste projeto</strong></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>EM13CO16</strong></td>
+                  <td>
+                    Desenvolver projetos com robótica, utilizando artefatos
+                    físicos ou simuladores
+                  </td>
+                  <td>
+                    O sistema inteiro: servo + HC-SR04 + Arduino + Processing.
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>EM13CO01</strong></td>
+                  <td>
+                    Explorar e construir soluções por meio da reutilização de
+                    partes existentes
+                  </td>
+                  <td>
+                    <code>ParserPacote</code>, <code>Leitura</code>,
+                    <code>Layout</code> e <code>SensorSerial</code> são peças
+                    reutilizáveis em qualquer projeto serial.
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>EM13CO12</strong></td>
+                  <td>Produzir/implementar soluções computacionais</td>
+                  <td>
+                    Protocolo <code>"ângulo,distância."</code>, parser robusto,
+                    tratamento de <code>null</code>, <code>volatile</code>.
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>EF05MA19</strong></td>
+                  <td>
+                    Resolver problemas envolvendo medidas de diferentes
+                    grandezas
+                  </td>
+                  <td>
+                    <code>d = (t × 0.034) / 2</code>; conversão µs → cm; cm →
+                    pixels no radar.
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Competência Geral 5</strong></td>
+                  <td>
+                    Cultura Digital: compreender, utilizar e
+                    <strong>criar</strong> tecnologias digitais de forma crítica
+                    e reflexiva
+                  </td>
+                  <td>
+                    <code>Config</code> como painel de decisões;
+                    <code>InfoBar</code> com estados visuais claros;
+                    visualização que
+                    <strong>traduz dados brutos em informação legível</strong>.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="info-box">
+            <p>
+              <strong>BNCC não é checklist.</strong> Esses códigos não foram
+              “colados” depois. Eles descrevem
+              <strong>o que o aluno faz enquanto o radar gira</strong>: mede,
+              converte, decide, desenha, depura. Se a aula for só “copie o
+              código e rode”, a BNCC vira decoração. Se for “<strong
+                >mude a cor do objeto e explique por quê</strong
+              >”, ela vira prática.
+            </p>
+          </div>
+        </section>
+
+        <!-- ===== SEÇÃO 7: PASSO A PASSO ===== -->
+        <section class="content-section" id="secao-7">
+          <h2>7. Passo a passo da criação (na ordem em que as coisas doem)</h2>
+
+          <h3>
+            Passo 1 Monte o hardware <strong>antes</strong> de escrever qualquer
+            linha
+          </h3>
+          <ul>
+            <li>HC-SR04: VCC → 5 V, GND → GND, Trig → 10, Echo → 11.</li>
+            <li>SG90: marrom → GND, vermelho → 5 V, amarelo → 12.</li>
+            <li>
+              <strong>Alimente o servo separadamente</strong> se possível. O
+              SG90 puxa corrente e pode reiniciar o Arduino.
+            </li>
+          </ul>
+
+          <h3>Passo 2 Faça o servo varrer <strong>sozinho</strong></h3>
+          <p>Antes do sensor, só o servo:</p>
+
+          <pre><code>myServo.write(0); delay(1000);
+myServo.write(90); delay(1000);
+myServo.write(180); delay(1000);</code></pre>
+
+          <p>
+            Se o servo não varrer, <strong>pare aqui</strong>. Não adianta
+            culpar o ultrassom.
+          </p>
+
+          <h3>Passo 3 Faça o HC-SR04 medir <strong>uma vez</strong></h3>
+          <p>
+            Abra o Serial Monitor, coloque um objeto a 20 cm, veja o valor. Se
+            vier
+            <code>0</code> ou <code>-1</code>, verifique Trigger/Echo (estão
+            invertidos?).
+          </p>
+
+          <h3>Passo 4 Una servo + sensor no <code>loop()</code></h3>
+          <p>
+            Aqui nasce o <code>"ângulo,distância."</code>. Use
+            <code>Serial.print</code>, <strong>não</strong>
+            <code>Serial.println</code>. O <code>.</code> é o delimitador.
+          </p>
+
+          <h3>
+            Passo 5 Abra o Processing e <strong>veja a serial chegar</strong>
+          </h3>
+          <p>Antes do radar, só imprima no console:</p>
+
+          <pre><code>void serialEvent(Serial p) {
+  print(p.readStringUntil('.'));
+}</code></pre>
+
+          <p>Se os pacotes chegam, o parser pode ser construído.</p>
+
+          <h3>Passo 6 Construa o parser <strong>isolado</strong></h3>
+          <p>
+            Teste <code>ParserPacote.interpretar("90,25.")</code> em um
+            <code>main()</code> separado. Se retornar
+            <code>Leitura(90, 25)</code>, está pronto.
+          </p>
+
+          <h3>Passo 7 Desenhe a grade <strong>sem dados</strong></h3>
+          <p>
+            <code>RadarView</code> com ângulo fixo em 90°. Depois conecte a
+            varredura. Depois o objeto.
+          </p>
+
+          <h3>
+            Passo 8 Adicione o rastro e a <code>InfoBar</code>
+            <strong>por último</strong>
+          </h3>
+          <p>
+            O rastro é o efeito. A <code>InfoBar</code> é a
+            <strong>âncora de legibilidade</strong>. Sem ela, o radar é bonito e
+            inútil.
+          </p>
+
+          <!-- ===== LOCAL PARA FOTO DO PROCESSO ===== -->
+          <div class="image-container">
+            <div class="media-placeholder">
+              <p class="image-caption">
+                <img
+                  src="../assets/images/antes_e_depois.jpg"
+                  alt="Bancada antes e depois"
+                />
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== SEÇÃO 8: ARMADILHAS ===== -->
+        <section class="content-section" id="secao-8">
+          <h2>
+            8. Três armadilhas que este projeto já resolveu (e você não precisa
+            repetir)
+          </h2>
+
+          <div class="aviso-importante">
+            <h4>Armadilha 1 O servo treme e mede errado.</h4>
+            <p>
+              <code>delay(30)</code> entre <code>write()</code> e
+              <code>calculateDistance()</code>. O SG90 não estabiliza
+              instantaneamente.
+            </p>
+          </div>
+
+          <div class="aviso-importante">
+            <h4>Armadilha 2 O Processing trava quando a porta serial cai.</h4>
+            <p>
+              <code>conectar()</code> retorna <code>false</code>, o sketch
+              continua, <code>ler()</code> devolve a última
+              <code>Leitura</code> válida.
+              <strong>Nada de <code>exit()</code>.</strong>
+            </p>
+          </div>
+
+          <div class="aviso-importante">
+            <h4>
+              Armadilha 3 O rastro “suja” a tela e a
+              <code>InfoBar</code> pisca.
+            </h4>
+            <p>
+              A <code>InfoBar</code> desenha uma
+              <strong>faixa preta opaca</strong> antes do texto. O rastro não a
+              atravessa.
+            </p>
+          </div>
+        </section>
+
+        <!-- ===== SEÇÃO 9: AUTORIA ===== -->
+        <section class="content-section" id="secao-9">
+          <h2>✍️ 9. Autoria e onde encontrar mais</h2>
+          <p>
+            <strong
+              >Projeto desenvolvido por Gisele Nunes e Rodrigo Barbosa.</strong
+            >
+          </p>
+          <ul>
+            <li>
+              🔗
+              <a
+                href="https://projetosgn.com.br/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >projetosgn.com.br</a
+              >
+              cartilhas de Scratch, robótica, cultura digital, ODS.
+            </li>
+            <li>
+              🔗
+              <a
+                href="https://projetosrb.com.br/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >projetosrb.com.br</a
+              >
+              código, soluções, materiais didáticos interativos.
+            </li>
+          </ul>
+
+          <div class="info-box">
+            <p>
+              <strong>Última irreverência:</strong> se este documento te ajudou
+              a fazer o radar girar, o crédito é do servo. Se o servo queimou, o
+              crédito é da fonte de alimentação. Em ambos os casos,
+              <strong>documente o que aconteceu</strong> é assim que a fase 2
+              começa.
+            </p>
+          </div>
+        </section>
+
+        <!-- ===== DOWNLOADS ===== -->
+        <section class="content-section" id="downloads">
+          <h2>📥 Downloads dos códigos completos</h2>
+          <p>Baixe os arquivos utilizados neste documento:</p>
+          <div class="download-grid">
+            <a
+              class="download-link"
+              href="../assets/downloads/codigo_radar/codigo_radar.ino"
+              target="_blank"
+              rel="noopener noreferrer"
+              >🔗 codigo_radar.ino</a
+            >
+            <a
+              class="download-link"
+              href="../assets/downloads/codigo_radar/codigo_radar.h"
+              target="_blank"
+              rel="noopener noreferrer"
+              >🔗 codigo_radar.h</a
+            >
+            <a
+              class="download-link"
+              href="../assets/downloads/codigo_radar/codigo_radar.cpp"
+              target="_blank"
+              rel="noopener noreferrer"
+              >🔗 codigo_radar.cpp</a
+            >
+            <a
+              class="download-link"
+              href="../assets/downloads/radar_independente/radar_independente.pde"
+              target="_blank"
+              rel="noopener noreferrer"
+              >🔗 radar_independente.pde</a
+            >
+            <a
+              class="download-link"
+              href="../assets/downloads/radar_independente/Config.java"
+              target="_blank"
+              rel="noopener noreferrer"
+              >🔗 Config.java</a
+            >
+            <a
+              class="download-link"
+              href="../assets/downloads/radar_independente/Leitura.java"
+              target="_blank"
+              rel="noopener noreferrer"
+              >🔗 Leitura.java</a
+            >
+            <a
+              class="download-link"
+              href="../assets/downloads/radar_independente/ParserPacote.java"
+              target="_blank"
+              rel="noopener noreferrer"
+              >🔗 ParserPacote.java</a
+            >
+            <a
+              class="download-link"
+              href="../assets/downloads/radar_independente/SensorSerial.java"
+              target="_blank"
+              rel="noopener noreferrer"
+              >🔗 SensorSerial.java</a
+            >
+            <a
+              class="download-link"
+              href="../assets/downloads/radar_independente/Layout.java"
+              target="_blank"
+              rel="noopener noreferrer"
+              >🔗 Layout.java</a
+            >
+            <a
+              class="download-link"
+              href="../assets/downloads/radar_independente/RadarView.java"
+              target="_blank"
+              rel="noopener noreferrer"
+              >🔗 RadarView.java</a
+            >
+            <a
+              class="download-link"
+              href="../assets/downloads/radar_independente/InfoBar.java"
+              target="_blank"
+              rel="noopener noreferrer"
+              >🔗 InfoBar.java</a
+            >
+            <a
+              class="download-link"
+              href="../assets/downloads/radar_independente/Janela.java"
+              target="_blank"
+              rel="noopener noreferrer"
+              >🔗 Janela.java</a
+            >
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- ======================== RODAPÉ  ======================== -->
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>UTFPR - Campus Siqueira Campos</h3>
+            <p>Universidade Tecnológica Federal do Paraná</p>
+            <p>Departamento de Computação</p>
+          </div>
+          <div class="footer-section">
+            <h3>Conheça os alunos</h3>
+            <p>
+              Gisele Nunes:
+              <a
+                href="https://projetosgn.com.br/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >https://projetosgn.com.br/</a
+              >
+            </p>
+            <p>
+              Rodrigo Barbosa:
+              <a
+                href="https://projetosrb.com.br/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >https://projetosrb.com.br/</a
+              >
+            </p>
+          </div>
+          <div class="footer-section">
+            <h3>Contato</h3>
+            <p>Email: giseleacn@gmail.com</p>
+            <p>Email: barbosa.rodrigo.1979@gmail.com</p>
+          </div>
+        </div>
+        <div class="copyright">
+          &copy; 2026 UTFPR - Desenvolvido por Gisele Nunes e Rodrigo Barbosa.
+          Todos os direitos reservados.
+        </div>
+      </div>
+    </footer>
+
+    <!-- ========== BOTÕES FLUTUANTES: TEMA E IMPRESSÃO ========== -->
+    <div class="floating-actions" aria-label="Ações rápidas">
+      <button
+        id="btn-tema"
+        class="theme-toggle"
+        type="button"
+        aria-label="Alternar modo escuro"
+        title="Alternar modo escuro"
+      >
+        🌙
+      </button>
+
+      <button
+        id="btn-imprimir"
+        class="print-button-floating"
+        type="button"
+        aria-label="Imprimir ou salvar em PDF"
+        title="Imprimir ou salvar em PDF"
+      >
+        🖨️
+      </button>
+    </div>
+
+    <!-- ========== SCRIPT PRINCIPAL ========== -->
+    <script src="../assets/js/olho_de_sogra_1.js"></script>
+  </body>
+</html>
