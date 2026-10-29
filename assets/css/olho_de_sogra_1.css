@@ -151,23 +151,157 @@ body {
 /* ===================================================================
    SEÇÃO 5 — RESPONSIVIDADE (TABLETS E CELULARES)
    =================================================================== */
+/* ===================================================================
+   SEÇÃO 5 — MEDIA-PLACEHOLDER (substitui o bloco antigo)
+   Ajustes para que as imagens ocupem 100% do contêiner reservado,
+   com responsividade real e sem o fundo listrado aparecendo atrás.
+   =================================================================== */
+
+/* ---- Placeholder genérico (fallback: quando NÃO há imagem) ---- */
+.media-placeholder {
+  width: 100%;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--utfpr-white),
+    var(--utfpr-white) 12px,
+    var(--utfpr-gray-light) 12px,
+    var(--utfpr-gray-light) 24px
+  );
+  border: 2px dashed var(--utfpr-gray-dark);
+  border-radius: 10px;
+  color: var(--utfpr-gray-dark);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.media-placeholder p {
+  margin: 6px 0;
+  color: var(--utfpr-gray-dark);
+}
+
+.media-placeholder .image-caption {
+  color: var(--utfpr-gray-dark);
+  font-style: italic;
+  font-size: 0.85rem;
+  margin-top: 12px;
+}
+
+/* ---- Imagem dentro do placeholder: ocupa 100% da largura ---- */
+.media-placeholder img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 8px;
+  background: var(--utfpr-white);
+}
+
+/* O <p> que envolve a imagem não deve limitar largura nem empurrar */
+.media-placeholder p:has(> img) {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* ---- Quando o placeholder CONTÉM imagem:
+       - remove fundo listrado (ficava aparecendo atrás)
+       - remove borda tracejada de "espaço reservado"
+       - reduz padding/min-height para virar moldura limpa ---- */
+.media-placeholder:has(> p > img),
+.media-placeholder:has(> img) {
+  background: var(--utfpr-white);
+  border: 1px solid var(--utfpr-gray-medium);
+  padding: 10px;
+  min-height: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Legendas abaixo da imagem (não devem herdar largura de <img>) */
+.media-placeholder p.image-caption {
+  width: 100%;
+  margin: 12px 0 0 0;
+  text-align: center;
+}
+
+/* ---- Responsividade ---- */
 @media (max-width: 768px) {
-  .header-top .container {
-    flex-direction: column;
-    text-align: center;
-    gap: 18px;
+  .media-placeholder {
+    min-height: 180px;
+    padding: 15px;
+    font-size: 0.9rem;
   }
-  .header-title {
-    text-align: center;
+  .media-placeholder img {
+    max-height: 55vh;
+  }
+  .media-placeholder:has(> p > img),
+  .media-placeholder:has(> img) {
+    padding: 8px;
   }
 }
 
 @media (max-width: 480px) {
-  .container {
-    padding: 0 15px;
+  .media-placeholder {
+    min-height: 150px;
+    padding: 12px;
+    font-size: 0.85rem;
   }
-  .logo {
-    height: 55px;
+  .media-placeholder img {
+    max-height: 45vh;
+  }
+  .media-placeholder:has(> p > img),
+  .media-placeholder:has(> img) {
+    padding: 6px;
+  }
+}
+
+/* ---- Modo escuro ---- */
+body.dark-mode .media-placeholder {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--utfpr-white),
+    var(--utfpr-white) 12px,
+    var(--utfpr-gray-light) 12px,
+    var(--utfpr-gray-light) 24px
+  );
+  color: var(--utfpr-black);
+  border-color: var(--utfpr-gray-dark);
+}
+
+body.dark-mode .media-placeholder p,
+body.dark-mode .media-placeholder .image-caption {
+  color: var(--utfpr-black);
+}
+
+body.dark-mode .media-placeholder:has(> p > img),
+body.dark-mode .media-placeholder:has(> img) {
+  background: var(--utfpr-white);
+  border-color: var(--utfpr-gray-medium);
+}
+
+/* ---- Impressão ---- */
+@media print {
+  .media-placeholder img {
+    max-height: none !important;
+    border: 1px solid #000 !important;
+    background: #fff !important;
+  }
+  .media-placeholder:has(> p > img),
+  .media-placeholder:has(> img) {
+    background: #fff !important;
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+    padding: 4px !important;
   }
 }
 
@@ -268,6 +402,355 @@ body.dark-mode .media-placeholder.media-placeholder--video {
     font-size: 0.9rem;
     color: #333;
     text-align: center;
+  }
+}
+
+/* ===================================================================
+   SEÇÃO 5.2 — VARIANTES: DIAGRAMAS TÉCNICOS
+   --diagram       → diagramas de ligação (largura 720px)
+   --diagram-wide  → diagramas de arquitetura (largura 1000px)
+   Ambos forçam fundo claro mesmo no dark mode (legibilidade
+   do traço fino) e centralizam quando a coluna é mais larga.
+   =================================================================== */
+
+.media-placeholder--diagram,
+.media-placeholder--diagram-wide {
+  /* padrão de largura máxima — sobrescrito por cada variante */
+  --diagram-max-w: 720px;
+}
+
+.media-placeholder--diagram-wide {
+  --diagram-max-w: 1000px;
+}
+
+/* Fundo claro forçado (o diagrama é desenhado para fundo branco) */
+.media-placeholder--diagram:has(> img),
+.media-placeholder--diagram:has(> figure > img),
+.media-placeholder--diagram-wide:has(> img),
+.media-placeholder--diagram-wide:has(> figure > img) {
+  background: #ffffff !important;
+  border-color: var(--utfpr-gray-medium);
+}
+
+/* Largura máxima aplicada à própria imagem */
+.media-placeholder--diagram > img,
+.media-placeholder--diagram > figure > img,
+.media-placeholder--diagram-wide > img,
+.media-placeholder--diagram-wide > figure > img {
+  max-width: var(--diagram-max-w);
+  margin: 0 auto; /* centraliza quando o container é maior */
+}
+
+/* Dark mode: reforça fundo claro — sem inverter cores do diagrama */
+body.dark-mode .media-placeholder--diagram:has(> img),
+body.dark-mode .media-placeholder--diagram:has(> figure > img),
+body.dark-mode .media-placeholder--diagram-wide:has(> img),
+body.dark-mode .media-placeholder--diagram-wide:has(> figure > img) {
+  background: #ffffff !important;
+  border-color: var(--utfpr-gray-dark);
+}
+
+/* Mobile: diagrama usa a coluna inteira */
+@media (max-width: 768px) {
+  .media-placeholder--diagram > img,
+  .media-placeholder--diagram > figure > img,
+  .media-placeholder--diagram-wide > img,
+  .media-placeholder--diagram-wide > figure > img {
+    max-width: 100%;
+  }
+}
+
+/* ===================================================================
+   SEÇÃO 5.3 — VARIANTE: PLACEHOLDER PENDENTE
+   Usada em .media-placeholder que representa conteúdo ainda
+   NÃO produzido (screenshot, foto a ser tirada, etc.).
+   Sinaliza visualmente com um badge e mantém o fundo listrado
+   padrão do placeholder genérico.
+   =================================================================== */
+
+.media-placeholder--pending {
+  position: relative;
+  border-color: var(--utfpr-Yellow-dark);
+  border-style: dashed;
+}
+
+/* Badge de status — sinaliza que é conteúdo pendente, não bug */
+.media-placeholder--pending::before {
+  content: 'EM PRODUÇÃO';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--utfpr-Yellow);
+  color: var(--utfpr-black);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+/* Dark mode: badge usa o amarelo escuro para manter contraste */
+body.dark-mode .media-placeholder--pending {
+  border-color: var(--utfpr-Yellow);
+}
+
+body.dark-mode .media-placeholder--pending::before {
+  background: var(--utfpr-Yellow-dark);
+  color: var(--utfpr-black);
+}
+
+/* Quando o placeholder pendente receber a imagem real, o badge
+   NÃO deve aparecer — a regra :has(img) o desliga. */
+.media-placeholder--pending:has(> img)::before,
+.media-placeholder--pending:has(> figure > img)::before {
+  content: none;
+}
+
+/* Print: badge fica mais discreto, sem cores */
+@media print {
+  .media-placeholder--pending::before {
+    content: '[imagem pendente]';
+    background: transparent !important;
+    color: #333 !important;
+    border: 1px solid #999;
+    box-shadow: none;
+    font-size: 0.65rem;
+  }
+}
+
+/* ===================================================================
+   SEÇÃO 5.4 — MEDIA-PLACEHOLDER (bloco consolidado, PARTES 1–7)
+   Imagens ocupam 100% do contêiner; variantes:
+     .media-placeholder--diagram       → 720 px, fundo branco
+     .media-placeholder--diagram-wide  → 1000 px, fundo branco
+     .media-placeholder--pending       → badge "EM PRODUÇÃO"
+   =================================================================== */
+
+/* ---- Base do placeholder ---- */
+.media-placeholder {
+  width: 100%;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--utfpr-white),
+    var(--utfpr-white) 12px,
+    var(--utfpr-gray-light) 12px,
+    var(--utfpr-gray-light) 24px
+  );
+  border: 2px dashed var(--utfpr-gray-dark);
+  border-radius: 10px;
+  color: var(--utfpr-gray-dark);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.media-placeholder p {
+  margin: 6px 0;
+  color: var(--utfpr-gray-dark);
+}
+.media-placeholder .image-caption {
+  color: var(--utfpr-gray-dark);
+  font-style: italic;
+  font-size: 0.85rem;
+  margin-top: 12px;
+}
+
+/* ---- Imagem dentro do placeholder ---- */
+.media-placeholder img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 8px;
+  background: var(--utfpr-white);
+}
+
+.media-placeholder p:has(> img) {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* ---- Quando contém imagem: moldura limpa ---- */
+.media-placeholder:has(> p > img),
+.media-placeholder:has(> img),
+.media-placeholder:has(> figure > img) {
+  background: var(--utfpr-white);
+  border: 1px solid var(--utfpr-gray-medium);
+  padding: 10px;
+  min-height: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.media-placeholder p.image-caption {
+  width: 100%;
+  margin: 12px 0 0 0;
+  text-align: center;
+}
+
+/* ---- Variantes de diagrama ---- */
+.media-placeholder--diagram,
+.media-placeholder--diagram-wide {
+  --diagram-max-w: 720px;
+}
+.media-placeholder--diagram-wide {
+  --diagram-max-w: 1000px;
+}
+
+.media-placeholder--diagram:has(> img),
+.media-placeholder--diagram:has(> figure > img),
+.media-placeholder--diagram-wide:has(> img),
+.media-placeholder--diagram-wide:has(> figure > img) {
+  background: #ffffff !important;
+  border-color: var(--utfpr-gray-medium);
+}
+
+.media-placeholder--diagram > img,
+.media-placeholder--diagram > figure > img,
+.media-placeholder--diagram-wide > img,
+.media-placeholder--diagram-wide > figure > img {
+  max-width: var(--diagram-max-w);
+  margin: 0 auto;
+}
+
+/* ---- Variante: placeholder pendente ---- */
+.media-placeholder--pending {
+  position: relative;
+  border-color: var(--utfpr-Yellow-dark);
+  border-style: dashed;
+}
+
+.media-placeholder--pending::before {
+  content: 'EM PRODUÇÃO';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--utfpr-Yellow);
+  color: var(--utfpr-black);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+.media-placeholder--pending:has(> img)::before,
+.media-placeholder--pending:has(> figure > img)::before {
+  content: none;
+}
+
+/* ---- Dark mode ---- */
+body.dark-mode .media-placeholder {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--utfpr-white),
+    var(--utfpr-white) 12px,
+    var(--utfpr-gray-light) 12px,
+    var(--utfpr-gray-light) 24px
+  );
+  color: var(--utfpr-black);
+  border-color: var(--utfpr-gray-dark);
+}
+body.dark-mode .media-placeholder p,
+body.dark-mode .media-placeholder .image-caption {
+  color: var(--utfpr-black);
+}
+body.dark-mode .media-placeholder:has(> p > img),
+body.dark-mode .media-placeholder:has(> img),
+body.dark-mode .media-placeholder:has(> figure > img) {
+  background: var(--utfpr-white);
+  border-color: var(--utfpr-gray-medium);
+}
+body.dark-mode .media-placeholder--diagram:has(> img),
+body.dark-mode .media-placeholder--diagram:has(> figure > img),
+body.dark-mode .media-placeholder--diagram-wide:has(> img),
+body.dark-mode .media-placeholder--diagram-wide:has(> figure > img) {
+  background: #ffffff !important;
+  border-color: var(--utfpr-gray-dark);
+}
+body.dark-mode .media-placeholder--pending {
+  border-color: var(--utfpr-Yellow);
+}
+body.dark-mode .media-placeholder--pending::before {
+  background: var(--utfpr-Yellow-dark);
+  color: var(--utfpr-black);
+}
+
+/* ---- Responsividade ---- */
+@media (max-width: 768px) {
+  .media-placeholder {
+    min-height: 180px;
+    padding: 15px;
+    font-size: 0.9rem;
+  }
+  .media-placeholder img {
+    max-height: 55vh;
+  }
+  .media-placeholder:has(> p > img),
+  .media-placeholder:has(> img),
+  .media-placeholder:has(> figure > img) {
+    padding: 8px;
+  }
+  .media-placeholder--diagram > img,
+  .media-placeholder--diagram > figure > img,
+  .media-placeholder--diagram-wide > img,
+  .media-placeholder--diagram-wide > figure > img {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .media-placeholder {
+    min-height: 150px;
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+  .media-placeholder img {
+    max-height: 45vh;
+  }
+  .media-placeholder:has(> p > img),
+  .media-placeholder:has(> img),
+  .media-placeholder:has(> figure > img) {
+    padding: 6px;
+  }
+}
+
+/* ---- Impressão ---- */
+@media print {
+  .media-placeholder img {
+    max-height: none !important;
+    border: 1px solid #000 !important;
+    background: #fff !important;
+  }
+  .media-placeholder:has(> p > img),
+  .media-placeholder:has(> img),
+  .media-placeholder:has(> figure > img) {
+    background: #fff !important;
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+    padding: 4px !important;
+  }
+  .media-placeholder--pending::before {
+    content: '[imagem pendente]';
+    background: transparent !important;
+    color: #333 !important;
+    border: 1px solid #999;
+    box-shadow: none;
+    font-size: 0.65rem;
   }
 }
 
