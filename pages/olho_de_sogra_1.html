@@ -145,16 +145,19 @@
             </p>
           </div>
 
-          <!-- ===== LOCAL PARA FOTO 1 ===== -->
+          <!-- ===== LOCAL PARA FOTO 1: componentes na bancada ===== -->
           <div class="image-container">
-            <div class="media-placeholder">
-              <p>
-                <img
-                  src="../assets/images/componentes_bancada.jpg"
-                  alt="Componentes em detalhes, soltos, prontos para serem utilizados."
-                />
-              </p>
-            </div>
+            <figure class="media-placeholder">
+              <img
+                src="../assets/images/componentes_bancada.jpg"
+                alt="Componentes eletrônicos soltos sobre a bancada, prontos para montagem: Arduino Uno, servo SG90, sensor HC-SR04, jumpers e protoboard."
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="image-caption">
+                Figura 1 — Componentes do projeto dispostos antes da montagem.
+              </figcaption>
+            </figure>
           </div>
         </section>
         <!-- ===== SEÇÃO 2: HARDWARE OS TRÊS MOSQUETEIROS ===== -->
@@ -209,16 +212,20 @@
             </p>
           </div>
 
-          <!-- ===== LOCAL PARA DIAGRAMA / FOTO DO HC-SR04 ===== -->
+          <!-- ===== LOCAL PARA DIAGRAMA: HC-SR04 ligado ao Arduino ===== -->
           <div class="image-container">
-            <div class="media-placeholder">
-              <p>
-                <img
-                  src="../assets/images/HC-SR04-Arduino.png"
-                  alt="Diagrama do sensor ultrassônico HC-SR04"
-                />
-              </p>
-            </div>
+            <figure class="media-placeholder media-placeholder--diagram">
+              <img
+                src="../assets/images/HC-SR04-Arduino.png"
+                alt="Diagrama de ligação do sensor ultrassônico HC-SR04 ao Arduino Uno: VCC em 5V, GND em GND, Trig no pino digital 10 e Echo no pino digital 11."
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="image-caption">
+                Figura 2 — Ligação do HC-SR04 ao Arduino: Trig no pino 10, Echo
+                no pino 11, alimentação em 5 V.
+              </figcaption>
+            </figure>
           </div>
 
           <h3>2.2 SG90 o servo que só quer um pulso</h3>
@@ -282,16 +289,20 @@
             </p>
           </div>
 
-          <!-- ===== LOCAL PARA FOTO DO SERVO ===== -->
+          <!-- ===== LOCAL PARA FOTO: SG90 com HC-SR04 acoplado ===== -->
           <div class="image-container">
-            <div class="media-placeholder">
-              <p>
-                <img
-                  src="../assets/images/SG90_e_HC-SR04.png"
-                  alt=" Servo SG90 com o HC-SR04 acoplado ao eixo"
-                />
-              </p>
-            </div>
+            <figure class="media-placeholder">
+              <img
+                src="../assets/images/SG90_e_HC-SR04.png"
+                alt="Servo motor SG90 com o sensor ultrassônico HC-SR04 fixado ao eixo, formando o conjunto que varre o ambiente de 15° a 165°."
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="image-caption">
+                Figura 3 — Conjunto mecânico: HC-SR04 acoplado ao eixo do SG90.
+                O servo gira, o sensor “olha” junto.
+              </figcaption>
+            </figure>
           </div>
 
           <h3>2.3 Arduino o maestro</h3>
@@ -416,16 +427,21 @@ Janela → maximizar/restaurar</code></pre>
             </p>
           </div>
 
-          <!-- ===== LOCAL PARA DIAGRAMA DE ARQUITETURA ===== -->
+          <!-- ===== LOCAL PARA DIAGRAMA: arquitetura Arduino + Processing ===== -->
           <div class="image-container">
-            <div class="media-placeholder">
-              <p>
-                <img
-                  src="../assets/images/Arquitetura_Radar Arduino_Processing.png"
-                  alt="Arquitetura dos códigos Arduino e Radar"
-                />
-              </p>
-            </div>
+            <figure class="media-placeholder media-placeholder--diagram-wide">
+              <img
+                src="../assets/images/Arquitetura_Radar%20Arduino_Processing.png"
+                alt="Diagrama de arquitetura do sistema: lado Arduino (C++) mede, move o servo e envia pacotes pela serial; lado Processing (Java) recebe, interpreta e desenha o radar."
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="image-caption">
+                Figura 4 — Arquitetura em dois lados: o Arduino mede e envia
+                <code>ângulo,distância.</code> pela serial a 9600 bps; o
+                Processing recebe, interpreta e desenha.
+              </figcaption>
+            </figure>
           </div>
         </section>
         <!-- ===== SEÇÃO 4: LADO ARDUINO, LINHA POR LINHA ===== -->
@@ -540,17 +556,20 @@ Servo myServo;</code></pre>
               de três que faz um servo parar de bater na parede.
             </p>
           </div>
-
-          <!-- ===== LOCAL PARA FOTO DA MONTAGEM ELÉTRICA ===== -->
+          <!-- ===== LOCAL PARA FOTO: ligação Trigger/Echo no Arduino ===== -->
           <div class="image-container">
-            <div class="media-placeholder">
-              <p class="image-caption">
-                <img
-                  src="../assets/images/Arduino_ Servo SG90 e HC-SR04.png"
-                  alt="Conexão entre Arduino, SG90 e HC-SR04"
-                />
-              </p>
-            </div>
+            <figure class="media-placeholder">
+              <img
+                src="../assets/images/Arduino_ Servo_SG90_HC-SR04.png"
+                alt="Detalhe da fiação física no Arduino Uno: fios do HC-SR04 (Trig no pino 10, Echo no pino 11), do servo SG90 (sinal no pino 12) e alimentação em 5 V e GND na protoboard."
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="image-caption">
+                Figura 5 — Detalhe da ligação Trigger/Echo no Arduino: Trig no
+                pino 10, Echo no pino 11, sinal do SG90 no pino 12.
+              </figcaption>
+            </figure>
           </div>
 
           <!-- 4.3 -->
@@ -979,18 +998,23 @@ linhaPolar(pix, l.raio, leitura.angulo);</code></pre>
             </p>
           </div>
 
-          <!-- ===== LOCAL PARA CAPTURA DO RADAR ===== -->
+          <!-- ===== LOCAL PARA IMAGEM: captura do radar em funcionamento =====
+            PLACEHOLDER — quando a captura existir, substituir o <p> por:
+            <img src="../assets/images/radar_processando.png"
+            alt="..." loading="lazy" decoding="async" />
+            O badge "EM PRODUÇÃO" desaparece automaticamente via :has(img).
+        ================================================================= -->
           <div class="image-container">
-            <div class="media-placeholder">
+            <figure class="media-placeholder media-placeholder--pending">
               <p>
-                🖼️ <strong>Espaço para imagem:</strong> Captura de tela do radar
-                em funcionamento grade, varredura verde e objeto vermelho.
+                🖼️ <strong>Espaço reservado:</strong> captura de tela do radar
+                em funcionamento — grade, varredura verde e objeto vermelho.
               </p>
-              <p class="image-caption">
-                Figura 6 Sugestão: screenshot do Processing com um obstáculo
-                detectado a ~25 cm.
-              </p>
-            </div>
+              <figcaption class="image-caption">
+                Sugestão de legenda (Figura 6): screenshot do Processing com um
+                obstáculo detectado a ~25 cm.
+              </figcaption>
+            </figure>
           </div>
 
           <!-- 5.7 -->
@@ -1255,15 +1279,20 @@ myServo.write(180); delay(1000);</code></pre>
           </p>
 
           <!-- ===== LOCAL PARA FOTO DO PROCESSO ===== -->
+          <!-- ===== LOCAL PARA FOTO: bancada antes e depois ===== -->
           <div class="image-container">
-            <div class="media-placeholder">
-              <p class="image-caption">
-                <img
-                  src="../assets/images/antes_e_depois.jpg"
-                  alt="Bancada antes e depois"
-                />
-              </p>
-            </div>
+            <figure class="media-placeholder">
+              <img
+                src="../assets/images/antes_e_depois.jpg"
+                alt="Comparação lado a lado da bancada de trabalho: à esquerda, componentes soltos e fios desorganizados; à direita, o radar montado com servo, HC-SR04 e Arduino fixados na protoboard."
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption class="image-caption">
+                Figura 7 — Do caos ao radar: bancada antes (esquerda) e depois
+                (direita) da montagem completa do sistema.
+              </figcaption>
+            </figure>
           </div>
         </section>
 
